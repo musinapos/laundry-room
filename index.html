@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Laundry Room - COMPLETE POS</title>
+<style>
+*{box-sizing:border-box}body{font-family:Arial;margin:0;background:#e8f4ff}
+#login{position:fixed;inset:0;background:#0b2a4a;color:#fff;display:flex;align-items:center;justify-content:center;z-index:99}
+.box{text-align:center;width:380px}.barbox{background:#fff;color:#000;padding:14px;font-size:34px;letter-spacing:16px;font-weight:bold}
+.bar{height:8px;background:#333;margin:10px 0}.fill{height:100%;width:0%;background:#00a8e8}
+.pad{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
+.pad button{background:#123;color:#fff;border:2px solid #00a8e8;height:80px;font-size:28px;cursor:pointer}
+.top{background:#0b2a4a;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;border-bottom:4px solid #E8912D}
+.top h1{margin:0}.top small{color:#ffd700}
+.mode{display:flex;gap:6px;padding:10px;background:#fff;flex-wrap:wrap}
+.mode button{width:auto;flex:1;cursor:pointer;padding:12px}.mode .on{background:#0b2a4a;color:#fff}
+.wrap{display:flex;gap:14px;padding:14px;max-width:1450px;margin:0 auto}
+.left{flex:1.9}.right{flex:1;background:#fff;padding:16px;height:fit-content;position:sticky;top:10px;min-width:340px}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.tile{border:none;padding:20px 6px;color:#fff;font-weight:bold;font-size:17px;cursor:pointer;min-height:115px}
+.tile small{display:block;font-weight:normal;font-size:13px}.low{color:red;font-weight:bold}
+.total{background:#0b2a4a;color:#fff;padding:14px;font-size:26px;font-weight:bold;margin:10px 0}
+button{border:none;padding:13px;font-weight:bold;width:100%;margin-top:7px;font-size:16px;cursor:pointer}
+.charge{background:#2E9E44;color:#fff;font-size:19px;padding:16px}
+input,select{width:100%;padding:12px;font-size:16px;border:2px solid #111;margin-top:7px}
+.order{border:2px solid #111;padding:10px;margin-top:8px;background:#fffbe6}
+table{width:100%;border-collapse:collapse;background:#fff}td,th{border:1px solid #111;padding:8px;text-align:left;font-size:14px}
+.badge{background:red;color:#fff;padding:2px 7px}
+#receipt{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:98}
+.paper{background:#fff;width:380px;max-height:92vh;overflow:auto;padding:18px;text-align:center;font-family:monospace}
+.row{display:flex;justify-content:space-between;text-align:left}
+@media(max-width:800px){.wrap{flex-direction:column}.grid{grid-template-columns:1fr 1fr}.right{position:static}}
+</style></head>
+<body>
+<div id="login"><div class="box"><h1>THE LAUNDRY ROOM</h1><p style="color:#ffd700">CLEAN • FRESH • CARE • COMPLETE POS</p>
+<div class="barbox" id="barbox">_ _ _ _</div><div class="bar"><div class="fill" id="fill"></div></div><div id="count">Staff only - Type 0000</div>
+<div class="pad"><button onclick="press(1)">1</button><button onclick="press(2)">2</button><button onclick="press(3)">3</button><button onclick="press(4)">4</button><button onclick="press(5)">5</button><button onclick="press(6)">6</button><button onclick="press(7)">7</button><button onclick="press(8)">8</button><button onclick="press(9)">9</button><button onclick="pin='';draw()">C</button><button onclick="press(0)">0</button><button onclick="pin=pin.slice(0,-1);draw()">⌫</button></div><p>TESTING: 0000</p>
+<button onclick="document.getElementById('login').style.display='none';setMode('order')" style="background:#ffd700">🛒 CUSTOMER? ORDER - NO PASSWORD</button></div></div>
+
+<div class="top"><div><h1>THE LAUNDRY ROOM</h1><small>CLEAN • FRESH • CARE</small></div><div style="text-align:right">📞 079 378 1174<br><small>Mon-Sat 07:00-18:00 • Sun 08:00-14:00</small></div></div>
+<div class="mode"><button id="mPos" class="on" onclick="setMode('pos')">💰 POS</button><button id="mStock" onclick="setMode('stock')">📦 STOCK / CHEMICALS</button><button id="mOrd" onclick="setMode('orders')">📦 ORDERS <span id="ocount"></span></button><button id="mRep" onclick="setMode('reports')">📊 REPORTS</button><button id="mOrder" onclick="setMode('order')">🛒 CUSTOMER</button></div>
+<div class="wrap"><div class="left" id="left"></div><div class="right" id="right"></div></div>
+<div id="receipt"><div class="paper" id="paper"></div></div>
+<script>
+let pin="";function press(n){if(pin.length>=4)return;pin+=n;draw();if(pin.length==4){if(pin=="0000")document.getElementById("login").style.display="none";else{alert("Wrong");pin="";draw()}}}
+function draw(){let s="";for(let i=0;i<4;i++)s+=i<pin.length?"* ":"_ ";document.getElementById("barbox").textContent=s;document.getElementById("fill").style.width=pin.length*25+"%";document.getElementById("count").textContent=pin.length+" / 4"}
+document.addEventListener("keydown",e=>{if(document.getElementById("login").style.display!="none"&&/^[0-9]$/.test(e.key))press(+e.key);if(document.getElementById("login").style.display=="none"&&mode=="pos"&&e.key=="Enter")showReceipt()});
+let services=[
+{name:"Wash, Dry & Fold",price:35,unit:"per kg",color:"#0077cc",icon:"💧",stock:9999,type:"service"},
+{name:"Takkie Wash",price:80,unit:"per pair",color:"#E8912D",icon:"👟",stock:9999,type:"service"},
+{name:"Ironing Only",price:25,unit:"per kg",color:"#0077cc",icon:"♨️",stock:9999,type:"service"},
+{name:"Alterations - Hem",price:60,unit:"item",color:"#E8912D",icon:"✂️",stock:9999,type:"service"},
+{name:"Residential Cleaning",price:450,unit:"visit",color:"#0077cc",icon:"🏠",stock:9999,type:"service"},
+{name:"Commercial Cleaning",price:850,unit:"visit",color:"#E8912D",icon:"🏢",stock:9999,type:"service"}];
+// CHEMICALS - CHANGE PRICE + STOCK HERE BOSS
+let stock=JSON.parse(localStorage.getItem("lr_stock")||"null")||[
+{name:"Washing Powder 2kg",price:85,stock:20,color:"#0077cc",icon:"🧼"},
+{name:"Washing Liquid 2L",price:95,stock:15,color:"#E8912D",icon:"🧴"},
+{name:"Fabric Softener 2L",price:65,stock:18,color:"#0077cc",icon:"🌸"},
+{name:"Bleach 2L",price:45,stock:12,color:"#E8912D",icon:"🧪"},
+{name:"Dishwashing Liquid 750ml",price:40,stock:25,color:"#0077cc",icon:"🍽️"},
+{name:"All Purpose Cleaner 1L",price:55,stock:10,color:"#E8912D",icon:"✨"},
+{name:"Hand Soap / Sanitizer",price:35,stock:30,color:"#0077cc",icon:"🧴"},
+{name:"Washing Soap Bar",price:25,stock:40,color:"#E8912D",icon:"🧼"}];
+let all=[...services,...stock.map(s=>({...s,unit:"each",type:"product"}))];
+let sale=[],orders=JSON.parse(localStorage.getItem("laundry_orders")||"[]"),sales=JSON.parse(localStorage.getItem("lr_sales")||"[]"),mode="pos";
+function save(){localStorage.setItem("laundry_orders",JSON.stringify(orders));localStorage.setItem("lr_sales",JSON.stringify(sales));localStorage.setItem("lr_stock",JSON.stringify(stock))}
+function setMode(m){mode=m;["Pos","Stock","Ord","Rep","Order"].forEach(x=>document.getElementById("m"+x).className=m.toLowerCase()==x.toLowerCase()?"on":"");render()}
+function render(){
+document.getElementById("ocount").textContent=orders.filter(o=>o.status=="NEW").length?`(${orders.filter(o=>o.status=="NEW").length})`:"";
+if(mode=="pos"){
+document.getElementById("left").innerHTML="<h2>POS - Services + Chemicals</h2><div class='grid'>"+all.map((s,i)=>`<button class='tile' style='background:${s.color}' onclick='addSale(${i})'>${s.icon}<br>${s.name}<small>R${s.price} ${s.unit}${s.type=="product"?` • Stock: ${s.stock}`:""}</small>${s.type=="product"&&s.stock<=5?'<small class="low">LOW STOCK!</small>':""}</button>`).join("")+"</div>";
+let sub=0,h=sale.map(s=>{sub+=s.price*s.qty;return s.name+" x"+s.qty+" - R"+(s.price*s.qty).toFixed(2)}).join("<br>");
+document.getElementById("right").innerHTML="<h3>Current Sale</h3>"+(sale.length?h:"Click item 👆")+"<div class='total'>TOTAL R"+sub.toFixed(2)+"</div><button class='charge' onclick='showReceipt()'>PROCESS PAYMENT</button><p style='text-align:center'>Cash • Card</p><button onclick='sale=[];render()'>Clear</button>"}
+if(mode=="stock"){
+document.getElementById("left").innerHTML="<h2>📦 STOCK - CHEMICALS</h2><p>Sell in POS = stock goes down automatically. Add stock here.</p><table><tr><th>Product</th><th>Price</th><th>Stock</th><th>Add</th></tr>"+stock.map((s,i)=>`<tr><td>${s.name}</td><td>R${s.price}</td><td>${s.stock} ${s.stock<=5?'<span class="low">LOW - BUY!</span>':""}</td><td><button onclick="stock[${i}].stock+=10;save();render()">+10</button><button onclick="stock[${i}].stock+=1;save();render()">+1</button><button onclick="if(stock[${i}].stock>0)stock[${i}].stock-=1;save();render()">-1</button></td></tr>`).join("")+"</table><h3>Add New Product</h3><input id='np' placeholder='Name e.g. Washing Soap'><input id='npr' type='number' placeholder='Price R'><input id='nst' type='number' placeholder='Stock qty'><button onclick='addProd()' style='background:#E8912D'>ADD PRODUCT</button>";
+document.getElementById("right").innerHTML="<h3>STOCK VALUE</h3>Total items: "+stock.reduce((a,s)=>a+s.stock,0)+"<br>Stock value: R"+stock.reduce((a,s)=>a+s.price*s.stock,0).toFixed(2)+"<br><br><b>LOW STOCK:</b><br>"+(stock.filter(s=>s.stock<=5).map(s=>s.name+" - "+s.stock+" left").join("<br>")||"None - all good ✓")}
+if(mode=="reports"){
+let today=new Date().toDateString(),m=new Date().getMonth(),y=new Date().getFullYear();
+let td=sales.filter(s=>new Date(s.date).toDateString()==today),mo=sales.filter(s=>{let d=new Date(s.date);return d.getMonth()==m&&d.getFullYear()==y});
+let tsum=a=>a.reduce((x,s)=>x+s.total,0);
+document.getElementById("left").innerHTML=`<h2>📊 REPORTS - MONTH END</h2>
+<div class='total'>TODAY: R${tsum(td).toFixed(2)} • ${td.length} sales</div>
+<div class='total' style='background:#E8912D'>THIS MONTH: R${tsum(mo).toFixed(2)} • ${mo.length} sales</div>
+<div class='total' style='background:#2E9E44'>ALL TIME: R${tsum(sales).toFixed(2)} • ${sales.length} sales</div>
+<h3>All Sales</h3><table><tr><th>Date</th><th>Items</th><th>Total</th></tr>${sales.slice().reverse().map(s=>`<tr><td>${new Date(s.date).toLocaleString()}</td><td>${s.items}</td><td>R${s.total.toFixed(2)}</td></tr>`).join("")||"<tr><td>No sales yet</td></tr>"}</table>`;
+document.getElementById("right").innerHTML="<h3>MONTH-END REPORT</h3><button onclick='window.print()' style='background:#0b2a4a;color:#fff'>🖨️ PRINT MONTH-END REPORT</button><button onclick=\"if(confirm('Clear ALL sales?')){sales=[];save();render()}\" style='background:red;color:#fff'>Clear Sales History</button><p>Print this page for month-end.<br>Today + Month + All sales show here.</p>"}
+if(mode=="orders"){
+document.getElementById("left").innerHTML="<h3>📦 ONLINE ORDERS "+orders.length+"</h3>"+(orders.length?orders.map((o,i)=>`<div class='order'><b>${o.status=="NEW"?'<span class="badge">NEW</span> ':""}#${o.no} ${o.name}</b><br>${o.phone}<br>${o.service} x${o.qty} R${o.total}<br>${o.type}<br><button onclick="orders[${i}].status='DONE';save();render()" style="background:#2E9E44;color:#fff">Done ✓</button></div>`).join(""):"No orders yet");
+document.getElementById("right").innerHTML="<button onclick='setMode(\"order\")'>Test As Customer</button>"}
+if(mode=="order"){
+document.getElementById("left").innerHTML=`<h3>🛒 ORDER ONLINE</h3><input id="cname" placeholder="Name *"><input id="cphone" placeholder="Phone *"><select id="cserv">${all.map(s=>`<option value="${s.name}|${s.price}">${s.name} - R${s.price}</option>`).join("")}</select><input id="cqty" type="number" value="1"><button class="charge" onclick="placeOrder()">SEND ORDER</button><p id="done"></p>`;
+document.getElementById("right").innerHTML="<h3>PRICES</h3>"+all.map(s=>`<div class='row'><span>${s.name}</span><b>R${s.price}</b></div>`).join("")}
+}
+function addProd(){let n=document.getElementById("np").value,p=+document.getElementById("npr").value,st=+document.getElementById("nst").value||0;if(!n||!p)return alert("Name + Price");stock.push({name:n,price:p,stock:st,color:"#0077cc",icon:"🧴"});all=[...services,...stock.map(s=>({...s,unit:"each",type:"product"}))];save();render()}
+function addSale(i){let s=all[i];if(s.type=="product"&&s.stock<=0)return alert("OUT OF STOCK: "+s.name);let f=sale.find(x=>x.name==s.name);if(f)f.qty++;else sale.push({name:s.name,price:s.price,qty:1,type:s.type});render()}
+function placeOrder(){let n=document.getElementById("cname").value,p=document.getElementById("cphone").value;if(!n||!p)return alert("Name+Phone");let sp=document.getElementById("cserv").value.split("|"),q=+document.getElementById("cqty").value||1;let o={no:Math.floor(1000+Math.random()*9000),name:n,phone:p,service:sp[0],qty:q,total:(+sp[1]*q).toFixed(2),type:"Collect",date:new Date().toLocaleString(),status:"NEW"};orders.unshift(o);save();document.getElementById("done").innerHTML="✅ SENT #"+o.no;window.open("https://wa.me/27793781174?text="+encodeURIComponent("ORDER #"+o.no+" "+n+" "+o.service+" R"+o.total))}
+// ON PAYMENT: deduct stock + save sale for reports
+function showReceipt(){if(!sale.length)return alert("Click item first");let sub=0;sale.forEach(s=>sub+=s.price*s.qty);
+sale.forEach(s=>{if(s.type=="product"){let st=stock.find(x=>x.name==s.name);if(st)st.stock-=s.qty}});all=[...services,...stock.map(s=>({...s,unit:"each",type:"product"}))];
+sales.push({date:new Date().toISOString(),items:sale.map(s=>s.name+" x"+s.qty).join(", "),total:sub});save();
+let rows=sale.map(s=>`<div class="row"><span>${s.name} x${s.qty}</span><span>R${(s.price*s.qty).toFixed(2)}</span></div>`).join("");
+document.getElementById("paper").innerHTML="<h2>THE LAUNDRY ROOM</h2>Clean • Fresh • Care<br>079 378 1174<hr>"+rows+"<hr><div class='row'><b>TOTAL:</b><b>R"+sub.toFixed(2)+"</b></div><hr><b>THANK YOU FOR BUYING HERE!</b><br>Thank you for supporting local business!<br><small>Designed by System Systems</small><br><br><button onclick='window.print()' style='background:#111;color:#fff'>PRINT</button><button onclick='document.getElementById(\"receipt\").style.display=\"none\";sale=[];render()' style='background:#ccc'>New Sale</button>";
+document.getElementById("receipt").style.display="flex"}
+render();
+</script></body></html>
