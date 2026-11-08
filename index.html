@@ -1,31 +1,88 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Laundry Room</title>
-<style>body{font-family:Arial;margin:0;background:#f4f8f7}button{padding:14px;font-weight:900;width:100%;margin-top:6px;border:3px solid #0F6B5C;border-radius:10px;cursor:pointer}.top{background:#1FA68F;color:#fff;padding:12px;text-align:center;font-weight:900;font-size:24px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px}.tile{background:#1FA68F;color:#fff;min-height:100px;font-size:17px}.card{background:#fff;margin:12px;padding:14px;border:3px solid #0F6B5C;border-radius:10px}.on{background:#1FA68F!important;color:#fff!important}#mgmt{position:fixed;inset:0;background:#fff;display:none;overflow:auto;padding:12px}input{width:100%;padding:10px;margin:4px 0;border:2px solid #000}</style></head><body>
-<div id="login" style="position:fixed;inset:0;background:#1FA68F;color:#fff;text-align:center;padding-top:80px;z-index:9"><h1>THE LAUNDRY ROOM 🇿🇦</h1><p>Type PIN</p><h1 id="pinShow">_ _ _ _</h1><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;max-width:300px;margin:auto"><button onclick="p(1)">1</button><button onclick="p(2)">2</button><button onclick="p(3)">3</button><button onclick="p(4)">4</button><button onclick="p(5)">5</button><button onclick="p(6)">6</button><button onclick="p(7)">7</button><button onclick="p(8)">8</button><button onclick="p(9)">9</button><button onclick="pin='';d()">C</button><button onclick="p(0)">0</button><button onclick="pin=pin.slice(0,-1);d()">X</button></div></div>
-<div class="top">THE LAUNDRY ROOM 🇿🇦<br><small id="clock"></small></div>
-<div class="grid" id="tiles"></div>
-<div class="card"><h3>CURRENT ORDER</h3><div id="order"></div><h2 id="total">TOTAL R0</h2><button onclick="pay='Cash';render()" id="bCash">💵 CASH</button><button onclick="pay='Card';render()" id="bCard">💳 CARD</button><button onclick="checkout()" style="background:#1FA68F;color:#fff">CHECKOUT & PRINT</button><button onclick="openMgmt()" style="background:#000;color:#fff">🔒 MANAGEMENT - CHANGE PRICES HERE</button><button onclick="sale=[];render()">Clear</button></div>
-<div id="mgmt"></div>
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Laundry Room - POS</title>
+<style>
+_{box-sizing:border-box}body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#f4f8f7;color:#111}
+:root{--green:#1FA68F;--dark:#0F6B5C;--silver:#C0C0C0}
+#login{position:fixed;inset:0;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;z-index:99}
+.box{text-align:center;width:400px}.barbox{background:#fff;color:#000;padding:14px;font-size:34px;letter-spacing:16px;font-weight:900;border:4px solid var(--silver);border-radius:10px}
+.bar{height:10px;background:#0f6b5c;margin:10px 0;border:3px solid var(--silver);border-radius:6px}.fill{height:100%;width:0%;background:#ffd700}
+.pad{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
+.pad button{background:var(--dark);color:#fff;border:4px solid #fff;height:82px;font-size:30px;font-weight:900;cursor:pointer;border-radius:10px}
+.top{background:var(--green);color:#fff;padding:12px 18px;border-bottom:6px solid var(--silver);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.topLeft{display:flex;align-items:center;gap:14px}
+.brandName{font-family:Georgia,serif;font-weight:900;font-size:34px;letter-spacing:3px;line-height:1;text-shadow:2px 2px 0 var(--dark);margin:0}
+.brandSub{font-weight:900;letter-spacing:6px;font-size:14px;color:#fff}
+.clock{font-weight:900;text-align:right;font-size:17px;line-height:1.4;white-space:nowrap}
+.logoLogin{width:190px;height:190px;border-radius:50%;object-fit:cover;border:6px solid var(--silver);background:#fff}
+.logoTop{width:72px;height:72px;border-radius:50%;object-fit:cover;border:4px solid var(--silver);background:#fff;flex-shrink:0}
+.logoReceipt{width:90px;height:90px;border-radius:50%;object-fit:cover;border:4px solid var(--silver)}
+.wrap{display:flex;gap:16px;padding:16px;max-width:1200px;margin:0 auto}
+.left{flex:1.9}.right{flex:1;min-width:340px}
+.card{background:#fff;padding:18px;border-radius:14px;border:4px solid var(--dark);height:fit-content;position:sticky;top:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tile{border:4px solid var(--silver);padding:26px 8px;color:#fff;font-weight:900;font-size:19px;cursor:pointer;min-height:130px;border-radius:12px;background:var(--green)}
+.tile small{display:block;font-weight:800;font-size:14px;margin-top:6px}
+.totalRow{display:flex;justify-content:space-between;font-size:20px;font-weight:900;margin:8px 0}
+.promoRow{display:flex;justify-content:space-between;color:var(--dark);font-weight:900;background:#e6f5f1;padding:8px;border:3px solid var(--green);border-radius:8px}
+button{border:3px solid var(--dark);padding:13px;font-weight:900;width:100%;margin-top:7px;font-size:16px;cursor:pointer;border-radius:10px}
+.charge{background:var(--green);color:#fff;font-size:20px;padding:17px;border-color:var(--silver)}
+.holdBtn{background:#dff0ec;color:var(--dark)}
+select{width:100%;padding:12px;font-size:16px;border:3px solid var(--dark);margin-top:7px;border-radius:8px;font-weight:700}
+#receipt{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:98}
+.paper{background:#fff;width:380px;max-height:92vh;overflow:auto;padding:18px;text-align:center;font-family:monospace;border:4px solid var(--silver);border-radius:10px}
+.row{display:flex;justify-content:space-between;text-align:left}
+.saleRow{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:8px 0;border-bottom:3px solid #ddd;font-size:15px}
+.saleRow button{width:auto;padding:6px 10px;margin:0;font-size:15px}
+h2{color:var(--dark);margin:4px 0;font-weight:900;letter-spacing:1px}
+#mgmt{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:98}
+#mgmt input{width:100%;padding:12px;font-size:16px;border:3px solid var(--dark);margin-top:7px;border-radius:8px;font-weight:700}
+@media(max-width:800px){.wrap{flex-direction:column}.grid{grid-template-columns:1fr 1fr}.card{position:static}.brandName{font-size:24px}.clock{font-size:13px}.logoTop{width:56px;height:56px}}
+</style></head>
+<body>
+<div id="login"><div class="box"><img src="logo.png" class="logoLogin" alt="The Laundry Room"><p class="brandName">THE LAUNDRY ROOM</p><p class="brandSub">CLEAN • FRESH • CARE</p><p id="loginClock" style="font-weight:900"></p>
+<div class="barbox" id="barbox">_ _ _ _</div><div class="bar"><div class="fill" id="fill"></div></div><div id="count">Staff only - Type PIN</div>
+<div class="pad"><button onclick="press(1)">1</button><button onclick="press(2)">2</button><button onclick="press(3)">3</button><button onclick="press(4)">4</button><button onclick="press(5)">5</button><button onclick="press(6)">6</button><button onclick="press(7)">7</button><button onclick="press(8)">8</button><button onclick="press(9)">9</button><button onclick="pin='';draw()">C</button><button onclick="press(0)">0</button><button onclick="pin=pin.slice(0,-1);draw()">⌫</button></div></div></div>
+<div class="top"><div class="topLeft"><img src="logo.png" class="logoTop" alt="Logo"><div><p class="brandName">THE LAUNDRY ROOM</p><p class="brandSub" style="margin:0">CLEAN • FRESH • CARE</p></div></div><div class="clock" id="topClock"></div></div>
+<div class="wrap"><div class="left" id="left"></div><div class="right" id="right"></div></div>
+<div id="receipt"><div class="paper" id="paper"></div></div>
+<div id="mgmt"><div class="paper" id="mgmtPaper" style="text-align:left;font-family:Arial"></div></div>
 <script>
-let pin="";function p(n){if(pin.length>=4)return;pin+=n;d();if(pin.length==4){if(pin=="0000"){document.getElementById("login").style.display="none"}else{alert("Wrong PIN");pin="";d()}}}
-function d(){let s="";for(let i=0;i<4;i++)s+=i<pin.length?"_ ":"_ ";document.getElementById("pinShow").textContent=s}
-setInterval(()=>{document.getElementById("clock").textContent=new Date().toLocaleString("en-ZA")},1000);
-let D={b:[[4,120,200],[5,130,210],[6,150,230],[7,160,240],[8,180,260],[9,200,280],[10,220,300],[11,250,330],[12,260,340],[15,270,350],[20,350,450],[25,420,550]],tak:80,alt:60,res:450,com:850};
-let P=JSON.parse(localStorage.getItem("P")||"null")||D;
-let sale=[],pay="Cash",sales=JSON.parse(localStorage.getItem("S")||"[]");
-function items(){return[{n:"Wash & Fold",t:"f"},{n:"Wash & Iron",t:"i"},{n:"Takkie Wash R"+P.tak,pr:P.tak},{n:"Alterations R"+P.alt,pr:P.alt},{n:"Residential R"+P.res,pr:P.res},{n:"Commercial R"+P.com,pr:P.com}]}
-function render(){document.getElementById("tiles").innerHTML=items().map((x,i)=>`<button class=tile onclick="add(${i})">${x.n}</button>`).join("");
-let tot=0;sale.forEach(s=>tot+=s.pr_s.q);
-http://document.getElementById("order").innerHTML=sale.map((s,i)=>`${s.n} x${s.q} = R${s.pr_s.q} <button style="width:auto;padding:4px" onclick="sale.splice(${i},1);render()">X</button><br>`).join("")||"Tap a green tile";
-http://document.getElementById("total").textContent="TOTAL R"+tot+" - "+pay;
-http://document.getElementById("bCash").className=pay=="Cash"?"on":"";document.getElementById("bCard").className=pay=="Card"?"on":"";}
-function add(i){let x=items()[i];
-if(x.t){let kg=prompt("Enter KG:","9");if(!kg)return;kg=+kg;let b=P.b.find(b=>kg<=b[0]);if(!b)return alert("Over 25kg");let pr=x.t=="f"?b[1]:b[2];if(!confirm(kg+"kg = R"+pr+" OK?"))return;sale.push({n:x.n+" "+kg+"kg",pr:pr,q:1});}
-else{let q=prompt("How many?","1");if(!q)return;sale.push({n:x.n,pr:x.pr,q:+q});}render()}
-function checkout(){if(!sale.length)return alert("No sale");let tot=0;sale.forEach(s=>tot+=s.pr_s.q);sales.push({d:new Date().toLocaleString("en-ZA"),t:tot,m:pay,items:sale.map(s=>s.n+" x"+s.q).join(", ")});localStorage.setItem("S",JSON.stringify(sales));alert("PAID R"+tot+" "+pay+" THE LAUNDRY ROOM THANK YOU "+sale.map(s=>s.n+" x"+s.q+" R"+s.pr*s.q).join(" "));sale=[];render()}
-function openMgmt(){let m=prompt("Manager password:");if(m!="1234")return alert("Wrong");
-let h="<h2>MANAGEMENT - CHANGE PRICES ONLY HERE</h2>";P.b.forEach((b,i)=>{h+=`Up to ${b[0]}kg: Fold R<input id=f${i} value=${b[1]}> Iron R<input id=i${i} value=${b[2]}><br>`});
-h+=`Takkie R<input id=tak value=${P.tak}> Alter R<input id=alt value=${P.alt}> Res R<input id=res value=${P.res}> Com R<input id=com value=${P.com}><br><button onclick="saveP()">SAVE PRICES</button><button onclick="document.getElementById('mgmt').style.display='none'">Close</button><h3>TODAY SALES</h3>`+sales.map(s=>s.d+" R"+s.t+" "+s.m+" "+s.items).join("<br>")+`<br><b>TOTAL R${sales.reduce((a,s)=>a+s.t,0)}</b><br><button onclick="if(confirm('Clear all?')){sales=[];localStorage.setItem('S','[]');openMgmt()}">Clear History</button>`;
-http://document.getElementById("mgmt").innerHTML=h;document.getElementById("mgmt").style.display="block";}
-function saveP(){P.b.forEach((b,i)=>{b[1]=+document.getElementById("f"+i).value;b[2]=+document.getElementById("i"+i).value});P.tak=+document.getElementById("tak").value;P.alt=+document.getElementById("alt").value;P.res=+document.getElementById("res").value;P.com=+document.getElementById("com").value;localStorage.setItem("P",JSON.stringify(P));alert("Prices saved");document.getElementById("mgmt").style.display="none";render()}
+function tick(){let d=new Date();let s=d.toLocaleDateString("en-ZA",{day:"2-digit",month:"short",year:"numeric"})+"<br>"+d.toLocaleTimeString("en-ZA");document.getElementById("topClock").innerHTML=s;let l=document.getElementById("loginClock");if(l)l.textContent=d.toLocaleString("en-ZA")}
+tick();setInterval(tick,1000);
+let pin="";function press(n){if(pin.length>=4)return;pin+=n;draw();if(pin.length==4){if(pin=="0000")document.getElementById("login").style.display="none";else{alert("Wrong");pin="";draw()}}}
+function draw(){let s="";for(let i=0;i<4;i++)s+=i<pin.length?"_ ":"_ ";document.getElementById("barbox").textContent=s;document.getElementById("fill").style.width=pin.length_25+"%";document.getElementById("count").textContent=pin.length+" / 4"}
+http://document.addEventListener("keydown",e=>{if(document.getElementById("login").style.display!="none"&&/^[0-9]$/.test(e.key))press(+e.key);if(document.getElementById("login").style.display=="none"&&e.key=="Enter"&&document.getElementById("receipt").style.display!="flex")showReceipt()});
+let P=JSON.parse(localStorage.getItem("lr_prices")||"null")||{fold:35,takkie:80,iron:15,alter:60,res:450,com:850};
+function saveP(){localStorage.setItem("lr_prices",JSON.stringify(P))}
+let items=[
+{name:"Wash Dry & Fold",price:P.fold,unit:"kg",icon:"🧺",sub:"R"+P.fold+" per kg"},
+{name:"Takkie Wash",price:P.takkie,unit:"pair",icon:"👟",sub:"R"+P.takkie+" per pair"},
+{name:"Ironing",price:P.iron,unit:"item",icon:"♨️",sub:"Per item - from R"+P.iron},
+{name:"Alterations",price:P.alter,unit:"item",icon:"✂️",sub:"Repairs & hemming"},
+{name:"Residential Cleaning",price:P.res,unit:"visit",icon:"🏠",sub:"Home cleaning service"},
+{name:"Commercial Cleaning",price:P.com,unit:"visit",icon:"🏢",sub:"Office & business clean"}];
+function refreshItems(){items[0].price=P.fold;items[0].sub="R"+P.fold+" per kg";items[1].price=P.takkie;items[1].sub="R"+P.takkie+" per pair";items[2].price=P.iron;items[2].sub="Per item - from R"+P.iron;items[3].price=P.alter;items[4].price=P.res;items[5].price=P.com}
+let sale=[],paying=false,promoOn=false,orderNo="LR-"+Math.floor(10000+Math.random()_89999);
+function totals(){let sub=0;sale.forEach(s=>sub+=s.price_s.qty);let disc=promoOn?Math.min(28,sub):0;return{sub:sub,disc:disc,total:sub-disc}}
+function render(){
+http://document.getElementById("left").innerHTML="<h2>SERVICES</h2><p style='font-weight:800'>Select service - eco friendly & fresh</p><div class='grid'>"+items.map((s,i)=>`<button class='tile' onclick='addSale(${i})'>${s.icon}<br>${s.name}<small>${s.sub}</small></button>`).join("")+"</div>";
+let t=totals();
+let h=sale.map((s,i)=>`<div class='saleRow'><span><b>${s.name}</b><br><small>${s.qty} x R${s.price} ${s.unit}</small></span><span>R${(s.price_s.qty).toFixed(2)}<br><button onclick='changeQty(${i},-1)'>-</button> <button onclick='changeQty(${i},1)'>+</button> <button onclick='removeSale(${i})' style='background:red;color:#fff'>✕</button></span></div>`).join("");
+http://document.getElementById("right").innerHTML="<div class='card'><h2 style='text-align:center'>CURRENT ORDER</h2><p style='text-align:center;font-weight:800'>Order #"+orderNo+" - "+new Date().toLocaleString("en-ZA")+"</p>"+(sale.length?h:"<p>Select a service 👆</p>")+"<div class='totalRow'><span>Subtotal</span><span>R"+t.sub.toFixed(2)+"</span></div>"+(promoOn?`<div class='promoRow'><span>- Eco Promo</span><span>-R${t.disc.toFixed(2)}</span></div>`:"")+"<div class='totalRow' style='font-size:28px;color:#0F6B5C'><span>TOTAL</span><span>R"+t.total.toFixed(2)+"</span></div><select id='payMethod'><option>Cash</option><option>Card</option></select><button onclick='promoOn=!promoOn;render()' style='background:#e6f5f1;color:#0F6B5C'>"+(promoOn?"✓ Eco Promo ON - Tap to remove":"Apply Eco Promo - R28")+"</button><button class='charge' onclick='showReceipt()'>CHECKOUT & PAY</button><button class='holdBtn' onclick='holdSale()'>HOLD / PRINT RECEIPT</button><button onclick='openMgmt()' style='background:#111;color:#fff'>🔒 MANAGEMENT - CHANGE PRICES HERE</button><p style='text-align:center;font-weight:800'>Thank you - clean, fresh, care! ♻️ Eco-friendly</p><button onclick='sale=[];promoOn=false;render()'>Clear</button></div>"}
+function addSale(i){let s=items[i];let q=prompt("Enter "+s.unit+"s for "+s.name+":","1");if(q===null)return;let qty=parseFloat(q);if(!qty||qty<=0)return alert("Enter a number bigger than 0");let f=sale.find(x=>x.name==s.name);if(f)f.qty+=qty;else http://sale.push({name:s.name,price:s.price,qty:qty,unit:s.unit});render()}
+function changeQty(i,d){sale[i].qty+=d;if(sale[i].qty<=0)sale.splice(i,1);render()}
+function removeSale(i){sale.splice(i,1);render()}
+function holdSale(){if(!sale.length)return alert("Nothing to hold");alert("Order "+orderNo+" HELD. Total R"+totals().total.toFixed(2));sale=[];promoOn=false;orderNo="LR-"+Math.floor(10000+Math.random()_89999);render()}
+function showReceipt(){if(paying)return;if(!sale.length)return alert("Click item first");paying=true;let t=totals();
+let method=document.getElementById("payMethod")?document.getElementById("payMethod").value:"Cash";
+let rows=sale.map(s=>`<div class="row"><span>${s.name} x${s.qty}</span><span>R${(s.price_s.qty).toFixed(2)}</span></div>`).join("");
+http://document.getElementById("paper").innerHTML='<img src="logo.png" class="logoReceipt"><h2>THE LAUNDRY ROOM</h2>Clean • Fresh • Care<br>Order #'+orderNo+'<br>'+new Date().toLocaleString("en-ZA")+'<hr>'+rows+"<hr><div class='row'><span>Subtotal</span><span>R"+t.sub.toFixed(2)+"</span></div>"+(promoOn?`<div class='row'><span>Eco Promo</span><span>-R${t.disc.toFixed(2)}</span></div>`:"")+"<hr><div class='row'><b>TOTAL:</b><b>R"+t.total.toFixed(2)+"</b></div><div class='row'><span>Paid:</span><span>"+method+"</span></div><hr><b>THANK YOU!</b><br><br><button onclick='window.print()' style='background:#111;color:#fff'>PRINT</button><button onclick='closeReceipt()' style='background:#ccc'>New Sale</button>";
+http://document.getElementById("receipt").style.display="flex"}
+function closeReceipt(){document.getElementById("receipt").style.display="none";sale=[];paying=false;promoOn=false;orderNo="LR-"+Math.floor(10000+Math.random()*89999);render()}
+function openMgmt(){let m=prompt("MANAGEMENT PASSWORD:","");if(m===null)return;if(m!="1234")return alert("Wrong management password");
+http://document.getElementById("mgmtPaper").innerHTML="<h2>MANAGEMENT - CHANGE PRICES ONLY HERE</h2><p style='font-weight:800'>Staff cannot change prices on the selling screen. Only here.</p><label>Wash Dry & Fold R per kg<input id='mFold' type='number' value='"+P.fold+"'></label><label>Takkie Wash R<input id='mTakkie' type='number' value='"+P.takkie+"'></label><label>Ironing R<input id='mIron' type='number' value='"+P.iron+"'></label><label>Alterations R<input id='mAlter' type='number' value='"+P.alter+"'></label><label>Residential Cleaning R<input id='mRes' type='number' value='"+P.res+"'></label><label>Commercial Cleaning R<input id='mCom' type='number' value='"+P.com+"'></label><button class='charge' onclick='saveMgmt()'>SAVE PRICES</button><button onclick='document.getElementById(\"mgmt\").style.display=\"none\"'>Close</button>";
+http://document.getElementById("mgmt").style.display="flex"}
+function saveMgmt(){P.fold=parseFloat(document.getElementById("mFold").value)||P.fold;P.takkie=parseFloat(document.getElementById("mTakkie").value)||P.takkie;P.iron=parseFloat(document.getElementById("mIron").value)||P.iron;P.alter=parseFloat(document.getElementById("mAlter").value)||P.alter;P.res=parseFloat(document.getElementById("mRes").value)||P.res;P.com=parseFloat(document.getElementById("mCom").value)||P.com;saveP();refreshItems();document.getElementById("mgmt").style.display="none";alert("Prices saved!");render()}
 render();
 </script></body></html>
