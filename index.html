@@ -1,128 +1,79 @@
 <!DOCTYPE html>
 <html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Laundry Room - COMPLETE POS</title>
+<title>The Laundry Room - POS</title>
 <style>
 *{box-sizing:border-box}body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#f4f8f7;color:#111}
-:root{--teal:#1FA68F;--dark:#0F6B5C;--silver:#C0C0C0}
-#login{position:fixed;inset:0;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;z-index:99}
+:root{--green:#1FA68F;--dark:#0F6B5C;--silver:#C0C0C0}
+#login{position:fixed;inset:0;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;z-index:99}
 .box{text-align:center;width:400px}.barbox{background:#fff;color:#000;padding:14px;font-size:34px;letter-spacing:16px;font-weight:900;border:4px solid var(--silver);border-radius:10px}
 .bar{height:10px;background:#0f6b5c;margin:10px 0;border:3px solid var(--silver);border-radius:6px}.fill{height:100%;width:0%;background:#ffd700}
 .pad{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
 .pad button{background:var(--dark);color:#fff;border:4px solid #fff;height:82px;font-size:30px;font-weight:900;cursor:pointer;border-radius:10px}
-.top{background:var(--teal);color:#fff;padding:16px 20px;text-align:center;border-bottom:6px solid var(--silver)}
-.top h1{margin:0;letter-spacing:2px;font-weight:900;font-size:32px}.top small{color:#fff;font-weight:800}
+.top{background:var(--green);color:#fff;padding:12px 18px;border-bottom:6px solid var(--silver);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.topLeft{display:flex;align-items:center;gap:14px}
+.brandName{font-family:Georgia,serif;font-weight:900;font-size:34px;letter-spacing:3px;line-height:1;text-shadow:2px 2px 0 var(--dark);margin:0}
+.brandSub{font-weight:900;letter-spacing:6px;font-size:14px;color:#fff}
+.clock{font-weight:900;text-align:right;font-size:17px;line-height:1.4;white-space:nowrap}
 .logoLogin{width:190px;height:190px;border-radius:50%;object-fit:cover;border:6px solid var(--silver);background:#fff}
-.logoTop{width:60px;height:60px;border-radius:50%;object-fit:cover;border:4px solid var(--silver);background:#fff}
+.logoTop{width:72px;height:72px;border-radius:50%;object-fit:cover;border:4px solid var(--silver);background:#fff;flex-shrink:0}
 .logoReceipt{width:90px;height:90px;border-radius:50%;object-fit:cover;border:4px solid var(--silver)}
-.mode{display:flex;gap:6px;padding:10px;background:#fff;flex-wrap:wrap;border-bottom:4px solid var(--dark)}
-.mode button{width:auto;flex:1;cursor:pointer;padding:13px;border-radius:10px;background:#eaf4f1;border:3px solid var(--dark);font-weight:900}.mode .on{background:var(--dark);color:#fff}
-.wrap{display:flex;gap:16px;padding:16px;max-width:1450px;margin:0 auto}
+.wrap{display:flex;gap:16px;padding:16px;max-width:1200px;margin:0 auto}
 .left{flex:1.9}.right{flex:1;min-width:340px}
 .card{background:#fff;padding:18px;border-radius:14px;border:4px solid var(--dark);height:fit-content;position:sticky;top:10px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.tile{border:4px solid var(--silver);padding:26px 8px;color:#fff;font-weight:900;font-size:19px;cursor:pointer;min-height:128px;border-radius:12px;background:var(--teal)}
-.tile small{display:block;font-weight:800;font-size:14px;margin-top:6px}.low{color:#ffe600;font-weight:900}
+.tile{border:4px solid var(--silver);padding:26px 8px;color:#fff;font-weight:900;font-size:19px;cursor:pointer;min-height:130px;border-radius:12px;background:var(--green)}
+.tile small{display:block;font-weight:800;font-size:14px;margin-top:6px}
 .totalRow{display:flex;justify-content:space-between;font-size:20px;font-weight:900;margin:8px 0}
-.promoRow{display:flex;justify-content:space-between;color:var(--dark);font-weight:900;background:#e6f5f1;padding:8px;border:3px solid var(--teal);border-radius:8px}
+.promoRow{display:flex;justify-content:space-between;color:var(--dark);font-weight:900;background:#e6f5f1;padding:8px;border:3px solid var(--green);border-radius:8px}
 button{border:3px solid var(--dark);padding:13px;font-weight:900;width:100%;margin-top:7px;font-size:16px;cursor:pointer;border-radius:10px}
-.charge{background:var(--teal);color:#fff;font-size:20px;padding:17px;border-color:var(--silver)}
+.charge{background:var(--green);color:#fff;font-size:20px;padding:17px;border-color:var(--silver)}
 .holdBtn{background:#dff0ec;color:var(--dark)}
-input,select{width:100%;padding:12px;font-size:16px;border:3px solid var(--dark);margin-top:7px;border-radius:8px;font-weight:700}
-.order{border:4px solid var(--dark);padding:10px;margin-top:8px;background:#fffbe6;border-radius:8px}
-table{width:100%;border-collapse:collapse;background:#fff}td,th{border:2px solid var(--dark);padding:8px;text-align:left;font-size:14px}
-.badge{background:red;color:#fff;padding:2px 7px}
+select{width:100%;padding:12px;font-size:16px;border:3px solid var(--dark);margin-top:7px;border-radius:8px;font-weight:700}
 #receipt{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:98}
 .paper{background:#fff;width:380px;max-height:92vh;overflow:auto;padding:18px;text-align:center;font-family:monospace;border:4px solid var(--silver);border-radius:10px}
 .row{display:flex;justify-content:space-between;text-align:left}
 .saleRow{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:8px 0;border-bottom:3px solid #ddd;font-size:15px}
 .saleRow button{width:auto;padding:6px 10px;margin:0;font-size:15px}
 h2{color:var(--dark);margin:4px 0;font-weight:900;letter-spacing:1px}
-h3{font-weight:900}
-@media(max-width:800px){.wrap{flex-direction:column}.grid{grid-template-columns:1fr 1fr}.card{position:static}}
+@media(max-width:800px){.wrap{flex-direction:column}.grid{grid-template-columns:1fr 1fr}.card{position:static}.brandName{font-size:24px}.clock{font-size:13px}.logoTop{width:56px;height:56px}}
 </style></head>
 <body>
-<div id="login"><div class="box"><img src="logo.jpg" class="logoLogin" alt="The Laundry Room"><h1 style="font-weight:900">THE LAUNDRY ROOM</h1><p style="font-weight:900">CLEAN • FRESH • CARE • COMPLETE POS</p>
+<div id="login"><div class="box"><img src="logo.png" class="logoLogin" alt="The Laundry Room"><p class="brandName">THE LAUNDRY ROOM</p><p class="brandSub">CLEAN • FRESH • CARE</p><p id="loginClock" style="font-weight:900"></p>
 <div class="barbox" id="barbox">_ _ _ _</div><div class="bar"><div class="fill" id="fill"></div></div><div id="count">Staff only - Type PIN</div>
-<div class="pad"><button onclick="press(1)">1</button><button onclick="press(2)">2</button><button onclick="press(3)">3</button><button onclick="press(4)">4</button><button onclick="press(5)">5</button><button onclick="press(6)">6</button><button onclick="press(7)">7</button><button onclick="press(8)">8</button><button onclick="press(9)">9</button><button onclick="pin='';draw()">C</button><button onclick="press(0)">0</button><button onclick="pin=pin.slice(0,-1);draw()">⌫</button></div>
-<button onclick="document.getElementById('login').style.display='none';setMode('order')" style="background:#ffd700">🛒 CUSTOMER? ORDER - NO PASSWORD</button></div></div>
+<div class="pad"><button onclick="press(1)">1</button><button onclick="press(2)">2</button><button onclick="press(3)">3</button><button onclick="press(4)">4</button><button onclick="press(5)">5</button><button onclick="press(6)">6</button><button onclick="press(7)">7</button><button onclick="press(8)">8</button><button onclick="press(9)">9</button><button onclick="pin='';draw()">C</button><button onclick="press(0)">0</button><button onclick="pin=pin.slice(0,-1);draw()">⌫</button></div></div></div>
 
-<div class="top"><h1>THE LAUNDRY ROOM</h1><small>CLEAN • FRESH • CARE • 079 378 1174</small><br><small>Mon-Sat 07:00-18:00 • Sun 08:00-14:00</small></div>
-<div class="mode"><button id="mPos" class="on" onclick="setMode('pos')">💰 POS</button><button id="mStock" onclick="setMode('stock')">📦 STOCK / CHEMICALS</button><button id="mOrd" onclick="setMode('orders')">📦 ORDERS <span id="ocount"></span></button><button id="mRep" onclick="setMode('reports')">📊 REPORTS</button><button id="mOrder" onclick="setMode('order')">🛒 CUSTOMER</button></div>
+<div class="top"><div class="topLeft"><img src="logo.png" class="logoTop" alt="Logo"><div><p class="brandName">THE LAUNDRY ROOM</p><p class="brandSub" style="margin:0">CLEAN • FRESH • CARE</p></div></div><div class="clock" id="topClock"></div></div>
 <div class="wrap"><div class="left" id="left"></div><div class="right" id="right"></div></div>
 <div id="receipt"><div class="paper" id="paper"></div></div>
 <script>
+function tick(){let d=new Date();let s=d.toLocaleDateString("en-ZA",{day:"2-digit",month:"short",year:"numeric"})+"<br>"+d.toLocaleTimeString("en-ZA");document.getElementById("topClock").innerHTML=s;let l=document.getElementById("loginClock");if(l)l.textContent=d.toLocaleString("en-ZA")}
+tick();setInterval(tick,1000);
 let pin="";function press(n){if(pin.length>=4)return;pin+=n;draw();if(pin.length==4){if(pin=="0000")document.getElementById("login").style.display="none";else{alert("Wrong");pin="";draw()}}}
 function draw(){let s="";for(let i=0;i<4;i++)s+=i<pin.length?"* ":"_ ";document.getElementById("barbox").textContent=s;document.getElementById("fill").style.width=pin.length*25+"%";document.getElementById("count").textContent=pin.length+" / 4"}
-document.addEventListener("keydown",e=>{if(document.getElementById("login").style.display!="none"&&/^[0-9]$/.test(e.key))press(+e.key);if(document.getElementById("login").style.display=="none"&&mode=="pos"&&e.key=="Enter"&&document.getElementById("receipt").style.display!="flex")showReceipt()});
-let services=[
-{name:"Wash, Dry & Fold",price:35,unit:"per kg",color:"#1FA68F",icon:"🧺",stock:9999,type:"service",sub:"R35 per kg"},
-{name:"Takkie Wash",price:80,unit:"per pair",color:"#1FA68F",icon:"👟",stock:9999,type:"service",sub:"R80 per pair"},
-{name:"Ironing Only",price:25,unit:"per kg",color:"#1FA68F",icon:"♨️",stock:9999,type:"service",sub:"Per kg - R25"},
-{name:"Alterations - Hem",price:60,unit:"item",color:"#1FA68F",icon:"✂️",stock:9999,type:"service",sub:"Repairs & hemming"},
-{name:"Residential Cleaning",price:450,unit:"visit",color:"#1FA68F",icon:"🏠",stock:9999,type:"service",sub:"Home cleaning service"},
-{name:"Commercial Cleaning",price:850,unit:"visit",color:"#1FA68F",icon:"🏢",stock:9999,type:"service",sub:"Office & business clean"}];
-let stock=JSON.parse(localStorage.getItem("lr_stock")||"null")||[
-{name:"Washing Powder 2kg",price:85,stock:20,color:"#1FA68F",icon:"🧼"},
-{name:"Washing Liquid 2L",price:95,stock:15,color:"#1FA68F",icon:"🧴"},
-{name:"Fabric Softener 2L",price:65,stock:18,color:"#1FA68F",icon:"🌸"},
-{name:"Bleach 2L",price:45,stock:12,color:"#1FA68F",icon:"🧪"},
-{name:"Dishwashing Liquid 750ml",price:40,stock:25,color:"#1FA68F",icon:"🍽️"},
-{name:"All Purpose Cleaner 1L",price:55,stock:10,color:"#1FA68F",icon:"✨"},
-{name:"Hand Soap / Sanitizer",price:35,stock:30,color:"#1FA68F",icon:"🧴"},
-{name:"Washing Soap Bar",price:25,stock:40,color:"#1FA68F",icon:"🧼"}];
-let all=[...services,...stock.map(s=>({...s,unit:"each",type:"product",sub:"R"+s.price+" each"}))];
-let sale=[],orders=JSON.parse(localStorage.getItem("laundry_orders")||"[]"),sales=JSON.parse(localStorage.getItem("lr_sales")||"[]"),mode="pos";
-let paying=false,promoOn=false,orderNo="LR-"+Math.floor(10000+Math.random()*89999);
-function save(){localStorage.setItem("laundry_orders",JSON.stringify(orders));localStorage.setItem("lr_sales",JSON.stringify(sales));localStorage.setItem("lr_stock",JSON.stringify(stock))}
-function rebuildAll(){all=[...services,...stock.map(s=>({...s,unit:"each",type:"product",sub:"R"+s.price+" each"}))]}
-function setMode(m){mode=m;let map={pos:"mPos",stock:"mStock",orders:"mOrd",reports:"mRep",order:"mOrder"};Object.values(map).forEach(id=>document.getElementById(id).className="");document.getElementById(map[m]).className="on";render()}
-function totals(){let sub=0;sale.forEach(s=>sub+=s.price*s.qty);let disc=promoOn?sub*0.10:0;return{sub:sub,disc:disc,total:sub-disc}}
+document.addEventListener("keydown",e=>{if(document.getElementById("login").style.display!="none"&&/^[0-9]$/.test(e.key))press(+e.key);if(document.getElementById("login").style.display=="none"&&e.key=="Enter"&&document.getElementById("receipt").style.display!="flex")showReceipt()});
+let items=[
+{name:"Wash Dry & Fold",price:35,unit:"kg",icon:"🧺",sub:"R35 per kg"},
+{name:"Takkie Wash",price:80,unit:"pair",icon:"👟",sub:"R80 per pair"},
+{name:"Ironing",price:15,unit:"item",icon:"♨️",sub:"Per item - from R15"},
+{name:"Alterations",price:60,unit:"item",icon:"✂️",sub:"Repairs & hemming"},
+{name:"Residential Cleaning",price:450,unit:"visit",icon:"🏠",sub:"Home cleaning service"},
+{name:"Commercial Cleaning",price:850,unit:"visit",icon:"🏢",sub:"Office & business clean"}];
+let sale=[],paying=false,promoOn=false,orderNo="LR-"+Math.floor(10000+Math.random()*89999);
+function totals(){let sub=0;sale.forEach(s=>sub+=s.price*s.qty);let disc=promoOn?Math.min(28,sub):0;return{sub:sub,disc:disc,total:sub-disc}}
 function render(){
-document.getElementById("ocount").textContent=orders.filter(o=>o.status=="NEW").length?`(${orders.filter(o=>o.status=="NEW").length})`:"";
-if(mode=="pos"){
-document.getElementById("left").innerHTML="<h2>SERVICES</h2><p style='font-weight:800'>Select service - eco friendly & fresh</p><div class='grid'>"+all.map((s,i)=>`<button class='tile' style='background:${s.color}' onclick='addSale(${i})'>${s.icon}<br>${s.name}<small>${s.sub}${s.type=="product"?` • Stock: ${s.stock}`:""}</small>${s.type=="product"&&s.stock<=5?'<small class="low">LOW STOCK!</small>':""}</button>`).join("")+"</div>";
+document.getElementById("left").innerHTML="<h2>SERVICES</h2><p style='font-weight:800'>Select service - eco friendly & fresh</p><div class='grid'>"+items.map((s,i)=>`<button class='tile' onclick='addSale(${i})'>${s.icon}<br>${s.name}<small>${s.sub}</small></button>`).join("")+"</div>";
 let t=totals();
-let h=sale.map((s,i)=>`<div class='saleRow'><span><b>${s.name}</b><br><small>${s.qty} x R${s.price} ${s.unit||""}</small></span><span>R${(s.price*s.qty).toFixed(2)}<br><button onclick='changeQty(${i},-1)'>-</button> <button onclick='changeQty(${i},1)'>+</button> <button onclick='removeSale(${i})' style='background:red;color:#fff'>✕</button></span></div>`).join("");
-document.getElementById("right").innerHTML="<div class='card'><h2 style='text-align:center'>CURRENT ORDER</h2><p style='text-align:center;font-weight:800'>Order #"+orderNo+" - "+new Date().toLocaleString()+"</p>"+(sale.length?h:"<p>Select a service 👆</p>")+"<div class='totalRow'><span>Subtotal</span><span>R"+t.sub.toFixed(2)+"</span></div>"+(promoOn?`<div class='promoRow'><span>- Eco Promo (10%)</span><span>-R${t.disc.toFixed(2)}</span></div>`:"")+"<div class='totalRow' style='font-size:28px;color:#0F6B5C'><span>TOTAL</span><span>R"+t.total.toFixed(2)+"</span></div><select id='payMethod'><option>Cash</option><option>Card</option></select><button onclick='promoOn=!promoOn;render()' style='background:#e6f5f1;color:#0F6B5C'>"+(promoOn?"✓ Eco Promo ON - Tap to remove":"Apply Eco Promo")+"</button><button class='charge' onclick='showReceipt()'>CHECKOUT & PAY</button><button class='holdBtn' onclick='holdSale()'>HOLD / PRINT RECEIPT</button><p style='text-align:center;font-weight:800'>Thank you - clean, fresh, care! ♻️ Eco-friendly</p><button onclick='sale=[];promoOn=false;render()'>Clear</button></div>"}
-if(mode=="stock"){
-document.getElementById("left").innerHTML="<h2>📦 STOCK - CHEMICALS</h2><p>Sell in POS = stock goes down automatically.</p><table><tr><th>Product</th><th>Price</th><th>Stock</th><th>Add</th></tr>"+stock.map((s,i)=>`<tr><td>${s.name}</td><td>R${s.price}</td><td>${s.stock} ${s.stock<=5?'<span class="low" style="color:red">LOW - BUY!</span>':""}</td><td><button onclick="stock[${i}].stock+=10;save();rebuildAll();render()">+10</button><button onclick="stock[${i}].stock+=1;save();rebuildAll();render()">+1</button><button onclick="if(stock[${i}].stock>0)stock[${i}].stock-=1;save();rebuildAll();render()">-1</button></td></tr>`).join("")+"</table><h3>Add New Product</h3><input id='np' placeholder='Name'><input id='npr' type='number' placeholder='Price R'><input id='nst' type='number' placeholder='Stock qty'><button onclick='addProd()' style='background:#E8912D'>ADD PRODUCT</button>";
-document.getElementById("right").innerHTML="<div class='card'><h3>STOCK VALUE</h3>Total items: "+stock.reduce((a,s)=>a+s.stock,0)+"<br>Stock value: R"+stock.reduce((a,s)=>a+s.price*s.stock,0).toFixed(2)+"<br><br><b>LOW STOCK:</b><br>"+(stock.filter(s=>s.stock<=5).map(s=>s.name+" - "+s.stock+" left").join("<br>")||"None - all good ✓")+"</div>"}
-if(mode=="reports"){
-let today=new Date().toDateString(),m=new Date().getMonth(),y=new Date().getFullYear();
-let td=sales.filter(s=>new Date(s.date).toDateString()==today),mo=sales.filter(s=>{let d=new Date(s.date);return d.getMonth()==m&&d.getFullYear()==y});
-let tsum=a=>a.reduce((x,s)=>x+s.total,0);
-let cash=tsum(sales.filter(s=>s.method=="Cash")),card=tsum(sales.filter(s=>s.method=="Card"));
-document.getElementById("left").innerHTML=`<h2>📊 REPORTS - MONTH END</h2>
-<div class='totalRow'>TODAY: R${tsum(td).toFixed(2)} • ${td.length} sales</div>
-<div class='totalRow'>THIS MONTH: R${tsum(mo).toFixed(2)} • ${mo.length} sales</div>
-<div class='totalRow'>ALL TIME: R${tsum(sales).toFixed(2)} • ${sales.length} sales</div>
-<div class='totalRow'>CASH: R${cash.toFixed(2)} • CARD: R${card.toFixed(2)}</div>
-<h3>All Sales</h3><table><tr><th>Date</th><th>Items</th><th>Method</th><th>Total</th></tr>${sales.slice().reverse().map(s=>`<tr><td>${new Date(s.date).toLocaleString()}</td><td>${s.items}</td><td>${s.method||""}</td><td>R${s.total.toFixed(2)}</td></tr>`).join("")||"<tr><td>No sales yet</td></tr>"}</table>`;
-document.getElementById("right").innerHTML="<div class='card'><h3>MONTH-END REPORT</h3><button onclick='window.print()' style='background:#0F6B5C;color:#fff'>🖨️ PRINT</button><button onclick='exportBackup()' style='background:#2E9E44;color:#fff'>⬇️ EXPORT BACKUP (JSON)</button><button onclick='exportCSV()' style='background:#1FA68F;color:#fff'>⬇️ EXPORT SALES (CSV)</button><button onclick=\"if(confirm('Clear ALL sales?')){sales=[];save();render()}\" style='background:red;color:#fff'>Clear Sales History</button></div>"}
-if(mode=="orders"){
-document.getElementById("left").innerHTML="<h3>📦 ONLINE ORDERS "+orders.length+"</h3>"+(orders.length?orders.map((o,i)=>`<div class='order'><b>${o.status=="NEW"?'<span class="badge">NEW</span> ':""}#${o.no} ${o.name}</b><br>${o.phone}<br>${o.service} x${o.qty} R${o.total}<br>${o.type}<br><button onclick="orders[${i}].status='DONE';save();render()" style="background:#2E9E44;color:#fff">Done ✓</button> <button onclick="if(confirm('Delete this order?')){orders.splice(${i},1);save();render()}" style="background:red;color:#fff">Delete</button></div>`).join(""):"No orders yet");
-document.getElementById("right").innerHTML="<div class='card'><button onclick='setMode(\"order\")'>Test As Customer</button></div>"}
-if(mode=="order"){
-document.getElementById("left").innerHTML=`<h3>🛒 ORDER ONLINE</h3><img src="logo.jpg" class="logoLogin" style="width:120px;height:120px"><input id="cname" placeholder="Name *"><input id="cphone" placeholder="Phone *"><select id="cserv">${all.map(s=>`<option value="${s.name}|${s.price}">${s.name} - R${s.price} ${s.unit}</option>`).join("")}</select><input id="cqty" type="number" step="0.5" min="0.5" value="1"><select id="ctype"><option>Collect</option><option>Delivery</option></select><button class="charge" onclick="placeOrder()">SEND ORDER</button><p id="done"></p>`;
-document.getElementById("right").innerHTML="<div class='card'><h3>PRICES</h3>"+all.map(s=>`<div class='row'><span>${s.name}</span><b>R${s.price}</b></div>`).join("")+"</div>"}
-}
-function addProd(){let n=document.getElementById("np").value,p=+document.getElementById("npr").value,st=+document.getElementById("nst").value||0;if(!n||!p)return alert("Name + Price");stock.push({name:n,price:p,stock:st,color:"#1FA68F",icon:"🧴"});rebuildAll();save();render()}
-function addSale(i){let s=all[i];if(s.type=="product"&&s.stock<=0)return alert("OUT OF STOCK: "+s.name);let qty=1;if(s.type=="service"){let q=prompt("Enter "+s.unit+" for "+s.name+" (e.g. 4):","1");if(q===null)return;qty=parseFloat(q);if(!qty||qty<=0)return alert("Enter a number bigger than 0");}let f=sale.find(x=>x.name==s.name);if(f){if(s.type=="product"&&f.qty+qty>s.stock)return alert("Not enough stock");f.qty+=qty}else sale.push({name:s.name,price:s.price,qty:qty,type:s.type,unit:s.unit});render()}
-function changeQty(i,d){let s=sale[i];if(s.type=="product"){let st=stock.find(x=>x.name==s.name);if(d>0&&st&&s.qty+1>st.stock)return alert("Not enough stock")}s.qty+=d;if(s.qty<=0)sale.splice(i,1);render()}
+let h=sale.map((s,i)=>`<div class='saleRow'><span><b>${s.name}</b><br><small>${s.qty} x R${s.price} ${s.unit}</small></span><span>R${(s.price*s.qty).toFixed(2)}<br><button onclick='changeQty(${i},-1)'>-</button> <button onclick='changeQty(${i},1)'>+</button> <button onclick='removeSale(${i})' style='background:red;color:#fff'>✕</button></span></div>`).join("");
+document.getElementById("right").innerHTML="<div class='card'><h2 style='text-align:center'>CURRENT ORDER</h2><p style='text-align:center;font-weight:800'>Order #"+orderNo+" - "+new Date().toLocaleString("en-ZA")+"</p>"+(sale.length?h:"<p>Select a service 👆</p>")+"<div class='totalRow'><span>Subtotal</span><span>R"+t.sub.toFixed(2)+"</span></div>"+(promoOn?`<div class='promoRow'><span>- Eco Promo</span><span>-R${t.disc.toFixed(2)}</span></div>`:"")+"<div class='totalRow' style='font-size:28px;color:#0F6B5C'><span>TOTAL</span><span>R"+t.total.toFixed(2)+"</span></div><select id='payMethod'><option>Cash</option><option>Card</option></select><button onclick='promoOn=!promoOn;render()' style='background:#e6f5f1;color:#0F6B5C'>"+(promoOn?"✓ Eco Promo ON - Tap to remove":"Apply Eco Promo - R28")+"</button><button class='charge' onclick='showReceipt()'>CHECKOUT & PAY</button><button class='holdBtn' onclick='holdSale()'>HOLD / PRINT RECEIPT</button><p style='text-align:center;font-weight:800'>Thank you - clean, fresh, care! ♻️ Eco-friendly</p><button onclick='sale=[];promoOn=false;render()'>Clear</button></div>"}
+function addSale(i){let s=items[i];let q=prompt("Enter "+s.unit+"s for "+s.name+":","1");if(q===null)return;let qty=parseFloat(q);if(!qty||qty<=0)return alert("Enter a number bigger than 0");let f=sale.find(x=>x.name==s.name);if(f)f.qty+=qty;else sale.push({name:s.name,price:s.price,qty:qty,unit:s.unit});render()}
+function changeQty(i,d){sale[i].qty+=d;if(sale[i].qty<=0)sale.splice(i,1);render()}
 function removeSale(i){sale.splice(i,1);render()}
 function holdSale(){if(!sale.length)return alert("Nothing to hold");alert("Order "+orderNo+" HELD. Total R"+totals().total.toFixed(2));sale=[];promoOn=false;orderNo="LR-"+Math.floor(10000+Math.random()*89999);render()}
-function placeOrder(){let n=document.getElementById("cname").value,p=document.getElementById("cphone").value;if(!n||!p)return alert("Name+Phone");let sp=document.getElementById("cserv").value.split("|"),q=parseFloat(document.getElementById("cqty").value)||1;let item=all.find(x=>x.name==sp[0]);if(item&&item.type=="product"){let st=stock.find(x=>x.name==item.name);if(!st||st.stock<q)return alert("OUT OF STOCK: "+item.name);st.stock-=q;rebuildAll()}
-let o={no:Math.floor(1000+Math.random()*9000),name:n,phone:p,service:sp[0],qty:q,total:(+sp[1]*q).toFixed(2),type:document.getElementById("ctype").value,date:new Date().toLocaleString(),status:"NEW"};orders.unshift(o);sales.push({date:new Date().toISOString(),items:o.service+" x"+o.qty+" (ORDER #"+o.no+" "+o.name+")",total:+o.total,method:"Online Order"});save();document.getElementById("done").innerHTML="✅ SENT #"+o.no;window.open("https://wa.me/27793781174?text="+encodeURIComponent("ORDER #"+o.no+" "+n+" "+o.service+" x"+q+" R"+o.total+" "+o.type))}
 function showReceipt(){if(paying)return;if(!sale.length)return alert("Click item first");paying=true;let t=totals();
-sale.forEach(s=>{if(s.type=="product"){let st=stock.find(x=>x.name==s.name);if(st)st.stock-=s.qty}});rebuildAll();
 let method=document.getElementById("payMethod")?document.getElementById("payMethod").value:"Cash";
-sales.push({date:new Date().toISOString(),items:sale.map(s=>s.name+" x"+s.qty).join(", "),total:t.total,method:method});save();
 let rows=sale.map(s=>`<div class="row"><span>${s.name} x${s.qty}</span><span>R${(s.price*s.qty).toFixed(2)}</span></div>`).join("");
-document.getElementById("paper").innerHTML='<img src="logo.jpg" class="logoReceipt"><h2>THE LAUNDRY ROOM</h2>Clean • Fresh • Care<br>079 378 1174<br>Order #'+orderNo+'<hr>'+rows+"<hr><div class='row'><span>Subtotal</span><span>R"+t.sub.toFixed(2)+"</span></div>"+(promoOn?`<div class='row'><span>Eco Promo</span><span>-R${t.disc.toFixed(2)}</span></div>`:"")+"<hr><div class='row'><b>TOTAL:</b><b>R"+t.total.toFixed(2)+"</b></div><div class='row'><span>Paid:</span><span>"+method+"</span></div><hr><b>THANK YOU!</b><br>Thank you for supporting local business!<br><br><button onclick='window.print()' style='background:#111;color:#fff'>PRINT</button><button onclick='closeReceipt()' style='background:#ccc'>New Sale</button>";
+document.getElementById("paper").innerHTML='<img src="logo.png" class="logoReceipt"><h2>THE LAUNDRY ROOM</h2>Clean • Fresh • Care<br>Order #'+orderNo+'<br>'+new Date().toLocaleString("en-ZA")+'<hr>'+rows+"<hr><div class='row'><span>Subtotal</span><span>R"+t.sub.toFixed(2)+"</span></div>"+(promoOn?`<div class='row'><span>Eco Promo</span><span>-R${t.disc.toFixed(2)}</span></div>`:"")+"<hr><div class='row'><b>TOTAL:</b><b>R"+t.total.toFixed(2)+"</b></div><div class='row'><span>Paid:</span><span>"+method+"</span></div><hr><b>THANK YOU!</b><br><br><button onclick='window.print()' style='background:#111;color:#fff'>PRINT</button><button onclick='closeReceipt()' style='background:#ccc'>New Sale</button>";
 document.getElementById("receipt").style.display="flex"}
 function closeReceipt(){document.getElementById("receipt").style.display="none";sale=[];paying=false;promoOn=false;orderNo="LR-"+Math.floor(10000+Math.random()*89999);render()}
-function download(name,content,type){let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([content],{type:type}));a.download=name;a.click()}
-function exportBackup(){download("laundry-room-backup-"+new Date().toISOString().slice(0,10)+".json",JSON.stringify({stock:stock,sales:sales,orders:orders},null,2),"application/json")}
-function exportCSV(){let csv="Date,Items,Method,Total\n"+sales.map(s=>`"${new Date(s.date).toLocaleString()}","${s.items}","${s.method||""}",${s.total}`).join("\n");download("laundry-room-sales.csv",csv,"text/csv")}
 render();
 </script></body></html>
