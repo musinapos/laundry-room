@@ -14,8 +14,11 @@
 .brandName{font-family:Georgia,serif;font-weight:900;font-size:34px;letter-spacing:3px;line-height:1;text-shadow:2px 2px 0 var(--dark);margin:0}
 .brandSub{font-weight:900;letter-spacing:6px;font-size:14px;color:#fff}
 .clock{font-weight:900;text-align:right;font-size:17px;line-height:1.4;white-space:nowrap}
+.flag{font-size:44px;line-height:1;text-align:center}
+.flag small{display:block;font-size:11px;font-weight:900;letter-spacing:2px;color:#fff}
+.lockBtn{width:auto;margin:0;padding:10px 14px;font-size:24px;background:var(--dark);color:#fff;border:3px solid #fff;border-radius:10px;cursor:pointer}
 .logoLogin{width:190px;height:190px;border-radius:50%;object-fit:cover;border:6px solid var(--silver);background:#fff}
-.logoTop{width:72px;height:72px;border-radius:50%;object-fit:cover;border:4px solid var(--silver);background:#fff;flex-shrink:0}
+.logoTop{width:96px;height:96px;border-radius:50%;object-fit:cover;border:4px solid var(--silver);background:#fff;flex-shrink:0}
 .logoReceipt{width:90px;height:90px;border-radius:50%;object-fit:cover;border:4px solid var(--silver)}
 .wrap{display:flex;gap:16px;padding:16px;max-width:1200px;margin:0 auto}
 .left{flex:1.9}.right{flex:1;min-width:340px}
@@ -23,6 +26,7 @@
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .tile{border:4px solid var(--silver);padding:26px 8px;color:#fff;font-weight:900;font-size:19px;cursor:pointer;min-height:130px;border-radius:12px;background:var(--green)}
 .tile small{display:block;font-weight:800;font-size:14px;margin-top:6px}
+.bigBtn{border:4px solid var(--silver);padding:36px 8px;color:#fff;font-weight:900;font-size:26px;cursor:pointer;min-height:150px;border-radius:12px;background:var(--green)}
 .totalRow{display:flex;justify-content:space-between;font-size:20px;font-weight:900;margin:8px 0}
 .promoRow{display:flex;justify-content:space-between;color:var(--dark);font-weight:900;background:#e6f5f1;padding:8px;border:3px solid var(--green);border-radius:8px}
 button{border:3px solid var(--dark);padding:13px;font-weight:900;width:100%;margin-top:7px;font-size:16px;cursor:pointer;border-radius:10px}
@@ -37,13 +41,13 @@ select{width:100%;padding:12px;font-size:16px;border:3px solid var(--dark);margi
 h2{color:var(--dark);margin:4px 0;font-weight:900;letter-spacing:1px}
 #mgmt{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:98}
 #mgmt input{width:100%;padding:12px;font-size:16px;border:3px solid var(--dark);margin-top:7px;border-radius:8px;font-weight:700}
-@media(max-width:800px){.wrap{flex-direction:column}.grid{grid-template-columns:1fr 1fr}.card{position:static}.brandName{font-size:24px}.clock{font-size:13px}.logoTop{width:56px;height:56px}}
+@media(max-width:800px){.wrap{flex-direction:column}.grid{grid-template-columns:1fr 1fr}.card{position:static}.brandName{font-size:24px}.clock{font-size:13px}.logoTop{width:72px;height:72px}.flag{font-size:34px}}
 </style></head>
 <body>
 <div id="login"><div class="box"><img src="logo.png" class="logoLogin" alt="The Laundry Room"><p class="brandName">THE LAUNDRY ROOM</p><p class="brandSub">CLEAN • FRESH • CARE</p><p id="loginClock" style="font-weight:900"></p>
 <div class="barbox" id="barbox">_ _ _ _</div><div class="bar"><div class="fill" id="fill"></div></div><div id="count">Staff only - Type PIN</div>
 <div class="pad"><button onclick="press(1)">1</button><button onclick="press(2)">2</button><button onclick="press(3)">3</button><button onclick="press(4)">4</button><button onclick="press(5)">5</button><button onclick="press(6)">6</button><button onclick="press(7)">7</button><button onclick="press(8)">8</button><button onclick="press(9)">9</button><button onclick="pin='';draw()">C</button><button onclick="press(0)">0</button><button onclick="pin=pin.slice(0,-1);draw()">⌫</button></div></div></div>
-<div class="top"><div class="topLeft"><img src="logo.png" class="logoTop" alt="Logo"><div><p class="brandName">THE LAUNDRY ROOM</p><p class="brandSub" style="margin:0">CLEAN • FRESH • CARE</p></div></div><div class="clock" id="topClock"></div></div>
+<div class="top"><div class="topLeft"><img src="logo.png" class="logoTop" alt="Logo"><div><p class="brandName">THE LAUNDRY ROOM</p><p class="brandSub" style="margin:0">CLEAN • FRESH • CARE</p></div></div><div style="display:flex;align-items:center;gap:12px"><div class="flag">🇿🇦<small>SA</small></div><button class="lockBtn" onclick="openMgmt()">🔒</button><div class="clock" id="topClock"></div></div></div>
 <div class="wrap"><div class="left" id="left"></div><div class="right" id="right"></div></div>
 <div id="receipt"><div class="paper" id="paper"></div></div>
 <div id="mgmt"><div class="paper" id="mgmtPaper" style="text-align:left;font-family:Arial"></div></div>
@@ -53,24 +57,21 @@ tick();setInterval(tick,1000);
 let pin="";function press(n){if(pin.length>=4)return;pin+=n;draw();if(pin.length==4){if(pin=="0000")document.getElementById("login").style.display="none";else{alert("Wrong");pin="";draw()}}}
 function draw(){let s="";for(let i=0;i<4;i++)s+=i<pin.length?"* ":"_ ";document.getElementById("barbox").textContent=s;document.getElementById("fill").style.width=pin.length*25+"%";document.getElementById("count").textContent=pin.length+" / 4"}
 document.addEventListener("keydown",e=>{if(document.getElementById("login").style.display!="none"&&/^[0-9]$/.test(e.key))press(+e.key);if(document.getElementById("login").style.display=="none"&&e.key=="Enter"&&document.getElementById("receipt").style.display!="flex")showReceipt()});
-let P=JSON.parse(localStorage.getItem("lr_prices")||"null")||{fold:35,takkie:80,iron:15,alter:60,res:450,com:850};
-function saveP(){localStorage.setItem("lr_prices",JSON.stringify(P))}
-let items=[
-{name:"Wash Dry & Fold",price:P.fold,unit:"kg",icon:"🧺",sub:"R"+P.fold+" per kg"},
-{name:"Takkie Wash",price:P.takkie,unit:"pair",icon:"👟",sub:"R"+P.takkie+" per pair"},
-{name:"Ironing",price:P.iron,unit:"item",icon:"♨️",sub:"Per item - from R"+P.iron},
-{name:"Alterations",price:P.alter,unit:"item",icon:"✂️",sub:"Repairs & hemming"},
-{name:"Residential Cleaning",price:P.res,unit:"visit",icon:"🏠",sub:"Home cleaning service"},
-{name:"Commercial Cleaning",price:P.com,unit:"visit",icon:"🏢",sub:"Office & business clean"}];
-function refreshItems(){items[0].price=P.fold;items[0].sub="R"+P.fold+" per kg";items[1].price=P.takkie;items[1].sub="R"+P.takkie+" per pair";items[2].price=P.iron;items[2].sub="Per item - from R"+P.iron;items[3].price=P.alter;items[4].price=P.res;items[5].price=P.com}
+let labels=["1-4kg","4-5kg","5-6kg","6-7kg","7-8kg","8-9kg","9-10kg","10-11kg","11-12kg","13-15kg","15-20kg","20-25kg"];
+let P=JSON.parse(localStorage.getItem("lr_brackets")||"null")||{fold:[120,130,150,160,180,200,220,250,260,270,350,420],iron:[200,210,230,240,260,280,300,330,340,350,450,550]};
+function saveP(){localStorage.setItem("lr_brackets",JSON.stringify(P))}
+let view="home";
 let sale=[],paying=false,promoOn=false,orderNo="LR-"+Math.floor(10000+Math.random()*89999);
 function totals(){let sub=0;sale.forEach(s=>sub+=s.price*s.qty);let disc=promoOn?Math.min(28,sub):0;return{sub:sub,disc:disc,total:sub-disc}}
 function render(){
-document.getElementById("left").innerHTML="<h2>SERVICES</h2><p style='font-weight:800'>Select service - eco friendly & fresh</p><div class='grid'>"+items.map((s,i)=>`<button class='tile' onclick='addSale(${i})'>${s.icon}<br>${s.name}<small>${s.sub}</small></button>`).join("")+"</div>";
+let left="";
+if(view=="home"){left="<h2>CHOOSE SERVICE</h2><p style='font-weight:800'>Tap 1 option first</p><div class='grid'><button class='bigBtn' onclick='view=\"fold\";render()'>🧺<br>WASH &amp; FOLD<small>Tap to see kg prices</small></button><button class='bigBtn' onclick='view=\"iron\";render()'>♨️<br>WASH &amp; IRON<small>Tap to see kg prices</small></button></div>"}
+else{let title=view=="fold"?"WASH & FOLD":"WASH & IRON";let arr=view=="fold"?P.fold:P.iron;left="<h2>"+title+"</h2><p style='font-weight:800'>Tap a kg price, it adds straight</p><button onclick='view=\"home\";render()' style='background:#111;color:#fff'>← BACK TO 2 OPTIONS</button><div class='grid' style='margin-top:10px'>"+labels.map((lab,i)=>`<button class='tile' onclick='addBracket(${i})'>${lab}<small>R${arr[i]}</small></button>`).join("")+"</div>"}
+document.getElementById("left").innerHTML=left;
 let t=totals();
-let h=sale.map((s,i)=>`<div class='saleRow'><span><b>${s.name}</b><br><small>${s.qty} x R${s.price} ${s.unit}</small></span><span>R${(s.price*s.qty).toFixed(2)}<br><button onclick='changeQty(${i},-1)'>-</button> <button onclick='changeQty(${i},1)'>+</button> <button onclick='removeSale(${i})' style='background:red;color:#fff'>✕</button></span></div>`).join("");
-document.getElementById("right").innerHTML="<div class='card'><h2 style='text-align:center'>CURRENT ORDER</h2><p style='text-align:center;font-weight:800'>Order #"+orderNo+" - "+new Date().toLocaleString("en-ZA")+"</p>"+(sale.length?h:"<p>Select a service 👆</p>")+"<div class='totalRow'><span>Subtotal</span><span>R"+t.sub.toFixed(2)+"</span></div>"+(promoOn?`<div class='promoRow'><span>- Eco Promo</span><span>-R${t.disc.toFixed(2)}</span></div>`:"")+"<div class='totalRow' style='font-size:28px;color:#0F6B5C'><span>TOTAL</span><span>R"+t.total.toFixed(2)+"</span></div><select id='payMethod'><option>Cash</option><option>Card</option></select><button onclick='promoOn=!promoOn;render()' style='background:#e6f5f1;color:#0F6B5C'>"+(promoOn?"✓ Eco Promo ON - Tap to remove":"Apply Eco Promo - R28")+"</button><button class='charge' onclick='showReceipt()'>CHECKOUT & PAY</button><button class='holdBtn' onclick='holdSale()'>HOLD / PRINT RECEIPT</button><button onclick='openMgmt()' style='background:#111;color:#fff'>🔒 MANAGEMENT - CHANGE PRICES HERE</button><p style='text-align:center;font-weight:800'>Thank you - clean, fresh, care! ♻️ Eco-friendly</p><button onclick='sale=[];promoOn=false;render()'>Clear</button></div>"}
-function addSale(i){let s=items[i];let q=prompt("Enter "+s.unit+"s for "+s.name+":","1");if(q===null)return;let qty=parseFloat(q);if(!qty||qty<=0)return alert("Enter a number bigger than 0");let f=sale.find(x=>x.name==s.name);if(f)f.qty+=qty;else sale.push({name:s.name,price:s.price,qty:qty,unit:s.unit});render()}
+let h=sale.map((s,i)=>`<div class='saleRow'><span><b>${s.name}</b><br><small>${s.qty} x R${s.price}</small></span><span>R${(s.price*s.qty).toFixed(2)}<br><button onclick='changeQty(${i},-1)'>-</button> <button onclick='changeQty(${i},1)'>+</button> <button onclick='removeSale(${i})' style='background:red;color:#fff'>✕</button></span></div>`).join("");
+document.getElementById("right").innerHTML="<div class='card'><h2 style='text-align:center'>CURRENT ORDER</h2><p style='text-align:center;font-weight:800'>Order #"+orderNo+" - "+new Date().toLocaleString("en-ZA")+"</p>"+(sale.length?h:"<p>Select a service 👆</p>")+"<div class='totalRow'><span>Subtotal</span><span>R"+t.sub.toFixed(2)+"</span></div>"+(promoOn?`<div class='promoRow'><span>- Eco Promo</span><span>-R${t.disc.toFixed(2)}</span></div>`:"")+"<div class='totalRow' style='font-size:28px;color:#0F6B5C'><span>TOTAL</span><span>R"+t.total.toFixed(2)+"</span></div><select id='payMethod'><option>Cash</option><option>Card</option></select><button onclick='promoOn=!promoOn;render()' style='background:#e6f5f1;color:#0F6B5C'>"+(promoOn?"✓ Eco Promo ON - Tap to remove":"Apply Eco Promo - R28")+"</button><button class='charge' onclick='showReceipt()'>CHECKOUT & PAY</button><button class='holdBtn' onclick='holdSale()'>HOLD / PRINT RECEIPT</button><p style='text-align:center;font-weight:800'>Thank you - clean, fresh, care! ♻️ Eco-friendly</p><button onclick='sale=[];promoOn=false;render()'>Clear</button></div>"}
+function addBracket(i){let title=view=="fold"?"Wash & Fold":"Wash & Iron";let price=view=="fold"?P.fold[i]:P.iron[i];let name=title+" "+labels[i];let f=sale.find(x=>x.name==name);if(f)f.qty+=1;else sale.push({name:name,price:price,qty:1,unit:"bag"});render()}
 function changeQty(i,d){sale[i].qty+=d;if(sale[i].qty<=0)sale.splice(i,1);render()}
 function removeSale(i){sale.splice(i,1);render()}
 function holdSale(){if(!sale.length)return alert("Nothing to hold");alert("Order "+orderNo+" HELD. Total R"+totals().total.toFixed(2));sale=[];promoOn=false;orderNo="LR-"+Math.floor(10000+Math.random()*89999);render()}
@@ -81,8 +82,10 @@ document.getElementById("paper").innerHTML='<img src="logo.png" class="logoRecei
 document.getElementById("receipt").style.display="flex"}
 function closeReceipt(){document.getElementById("receipt").style.display="none";sale=[];paying=false;promoOn=false;orderNo="LR-"+Math.floor(10000+Math.random()*89999);render()}
 function openMgmt(){let m=prompt("MANAGEMENT PASSWORD:","");if(m===null)return;if(m!="1234")return alert("Wrong management password");
-document.getElementById("mgmtPaper").innerHTML="<h2>MANAGEMENT - CHANGE PRICES ONLY HERE</h2><p style='font-weight:800'>Staff cannot change prices on the selling screen. Only here.</p><label>Wash Dry & Fold R per kg<input id='mFold' type='number' value='"+P.fold+"'></label><label>Takkie Wash R<input id='mTakkie' type='number' value='"+P.takkie+"'></label><label>Ironing R<input id='mIron' type='number' value='"+P.iron+"'></label><label>Alterations R<input id='mAlter' type='number' value='"+P.alter+"'></label><label>Residential Cleaning R<input id='mRes' type='number' value='"+P.res+"'></label><label>Commercial Cleaning R<input id='mCom' type='number' value='"+P.com+"'></label><button class='charge' onclick='saveMgmt()'>SAVE PRICES</button><button onclick='document.getElementById(\"mgmt\").style.display=\"none\"'>Close</button>";
+let fInputs=labels.map((lab,i)=>`<label>${lab} Wash &amp; Fold R<input id='f${i}' type='number' value='${P.fold[i]}'></label>`).join("");
+let iInputs=labels.map((lab,i)=>`<label>${lab} Wash &amp; Iron R<input id='r${i}' type='number' value='${P.iron[i]}'></label>`).join("");
+document.getElementById("mgmtPaper").innerHTML="<h2>MANAGEMENT - CHANGE PRICES ONLY HERE</h2><p style='font-weight:800'>Staff cannot change prices. Only here, password 1234.</p>"+fInputs+"<hr>"+iInputs+"<button class='charge' onclick='saveMgmt()'>SAVE ALL PRICES</button><button onclick='document.getElementById(\"mgmt\").style.display=\"none\"'>Close</button>";
 document.getElementById("mgmt").style.display="flex"}
-function saveMgmt(){P.fold=parseFloat(document.getElementById("mFold").value)||P.fold;P.takkie=parseFloat(document.getElementById("mTakkie").value)||P.takkie;P.iron=parseFloat(document.getElementById("mIron").value)||P.iron;P.alter=parseFloat(document.getElementById("mAlter").value)||P.alter;P.res=parseFloat(document.getElementById("mRes").value)||P.res;P.com=parseFloat(document.getElementById("mCom").value)||P.com;saveP();refreshItems();document.getElementById("mgmt").style.display="none";alert("Prices saved!");render()}
+function saveMgmt(){for(let i=0;i<12;i++){P.fold[i]=parseFloat(document.getElementById("f"+i).value)||P.fold[i];P.iron[i]=parseFloat(document.getElementById("r"+i).value)||P.iron[i]}saveP();document.getElementById("mgmt").style.display="none";alert("Prices saved!");render()}
 render();
 </script></body></html>
