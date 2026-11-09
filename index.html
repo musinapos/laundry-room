@@ -122,12 +122,15 @@ function addDress(price){let name="Dresses / Traditional R"+price;let f=sale.fin
 function changeQty(i,d){sale[i].qty+=d;if(sale[i].qty<=0)sale.splice(i,1);render()}
 function removeSale(i){sale.splice(i,1);render()}
 function holdSale(){if(!sale.length)return alert("Nothing to hold");alert("Order "+orderNo+" HELD. Total R"+totals().total.toFixed(2));sale=[];promoOn=false;orderNo="LR-"+Math.floor(10000+Math.random()*89999);render()}
-function showReceipt(){if(paying)return;if(!sale.length)return alert("Click item first");paying=true;let t=totals();
+function showReceipt(){if(paying)return;if(!sale.length)return alert("Click item first");let t=totals();
 let method=document.getElementById("payMethod")?document.getElementById("payMethod").value:"Cash";
+let tendered=t.total,change=0;
+if(method=="Cash"){let a=prompt("TOTAL R"+t.total.toFixed(2)+"\nHow much cash did customer GIVE? R\nExample: customer gives R1000, type 1000","");if(a===null)return;a=parseFloat(a);if(!a||a<=0)return alert("Type the cash given, e.g. 1000");if(a<t.total)return alert("NOT ENOUGH CASH! Total R"+t.total.toFixed(2)+", customer gave only R"+a.toFixed(2)+". Ask for R"+(t.total-a).toFixed(2)+" more.");tendered=a;change=a-t.total;alert("GIVE CHANGE: R"+change.toFixed(2)+"\nTotal R"+t.total.toFixed(2)+" - Given R"+tendered.toFixed(2))}
+paying=true;
 if(method=="Cash"){autoOpenDrawer()}
-daySales.push({order:orderNo,total:t.total,method:method,time:new Date().toLocaleString("en-ZA")});saveDay();
+daySales.push({order:orderNo,total:t.total,method:method,time:new Date().toLocaleString("en-ZA"),tendered:tendered,change:change});saveDay();
 let rows=sale.map(s=>`<div class="row"><span>${s.name} x${s.qty}</span><span>R${(s.price*s.qty).toFixed(2)}</span></div>`).join("");
-document.getElementById("paper").innerHTML='<img src="logo.png" class="logoReceipt"><h2>THE LAUNDRY ROOM</h2>Clean • Fresh • Care<br>Order #'+orderNo+'<br>'+new Date().toLocaleString("en-ZA")+'<hr>'+rows+"<hr><div class='row'><b>TOTAL:</b><b>R"+t.total.toFixed(2)+"</b></div><div class='row'><span>Paid:</span><span>"+method+"</span></div><hr><b>THANK YOU!</b><br><div class='designer'>Designed by Musina POS Systems</div><br><button onclick='window.print()' style='background:#111;color:#fff'>PRINT</button><button onclick='closeReceipt()' style='background:#ccc'>New Sale</button>";
+document.getElementById("paper").innerHTML='<img src="logo.png" class="logoReceipt"><h2>THE LAUNDRY ROOM</h2>Clean • Fresh • Care<br>Order #'+orderNo+'<br>'+new Date().toLocaleString("en-ZA")+'<hr>'+rows+"<hr><div class='row'><b>TOTAL:</b><b>R"+t.total.toFixed(2)+"</b></div><div class='row'><span>Paid:</span><span>"+method+"</span></div>"+(method=="Cash"?"<div class='row'><span>Cash Given:</span><span>R"+tendered.toFixed(2)+"</span></div><div class='row' style='font-size:22px;color:#0F6B5C'><b>CHANGE:</b><b>R"+change.toFixed(2)+"</b></div>":"")+"<hr><b>THANK YOU!</b><br><div class='designer'>Designed by Musina POS Systems</div><br><button onclick='window.print()' style='background:#111;color:#fff'>PRINT</button><button onclick='closeReceipt()' style='background:#ccc'>New Sale</button>";
 document.getElementById("receipt").style.display="flex"}
 function closeReceipt(){document.getElementById("receipt").style.display="none";sale=[];paying=false;promoOn=false;orderNo="LR-"+Math.floor(10000+Math.random()*89999);render()}
 function closePaperOnly(){document.getElementById("receipt").style.display="none"}
