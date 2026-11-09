@@ -19,9 +19,9 @@
 .clock{font-weight:900;text-align:right;font-size:17px;line-height:1.4;white-space:nowrap}
 .flag{font-size:44px;line-height:1;text-align:center}
 .flag small{display:block;font-size:11px;font-weight:900;letter-spacing:2px;color:#fff}
-.lockBtn{width:auto;margin:0;padding:14px 12px;font-size:15px;background:linear-gradient(180deg,#1FA68F,#0F6B5C);color:#fff;border:4px solid #fff;border-radius:12px;cursor:pointer;white-space:nowrap;box-shadow:0 4px 0 #083f36,inset 0 2px 0 rgba(255,255,255,.6)}
-.dayBtn{width:auto;margin:0;padding:14px 12px;font-size:15px;background:linear-gradient(180deg,#444,#111);color:#fff;border:4px solid #fff;border-radius:12px;cursor:pointer;white-space:nowrap;box-shadow:0 4px 0 #000,inset 0 2px 0 rgba(255,255,255,.5)}
-.drawerBtn{width:auto;margin:0;padding:14px 12px;font-size:15px;background:linear-gradient(180deg,#2bc4a9,#0F6B5C);color:#fff;border:4px solid #ffd700;border-radius:12px;cursor:pointer;white-space:nowrap;box-shadow:0 4px 0 #083f36,inset 0 2px 0 rgba(255,255,255,.6)}
+.lockBtn{width:auto;margin:0;padding:14px 12px;font-size:16px;font-family:Georgia,serif;letter-spacing:2px;text-shadow:2px 2px 0 var(--dark);background:linear-gradient(180deg,#1FA68F,#0F6B5C);color:#fff;border:4px solid #fff;border-radius:12px;cursor:pointer;white-space:nowrap;box-shadow:0 4px 0 #083f36,inset 0 2px 0 rgba(255,255,255,.6)}
+.dayBtn{width:auto;margin:0;padding:14px 12px;font-size:16px;font-family:Georgia,serif;letter-spacing:2px;text-shadow:2px 2px 0 #000;background:linear-gradient(180deg,#444,#111);color:#fff;border:4px solid #fff;border-radius:12px;cursor:pointer;white-space:nowrap;box-shadow:0 4px 0 #000,inset 0 2px 0 rgba(255,255,255,.5)}
+.drawerBtn{width:auto;margin:0;padding:14px 12px;font-size:16px;font-family:Georgia,serif;letter-spacing:2px;text-shadow:2px 2px 0 var(--dark);background:linear-gradient(180deg,#2bc4a9,#0F6B5C);color:#fff;border:4px solid #ffd700;border-radius:12px;cursor:pointer;white-space:nowrap;box-shadow:0 4px 0 #083f36,inset 0 2px 0 rgba(255,255,255,.6)}
 .logoLogin{width:190px;height:190px;border-radius:50%;object-fit:cover;border:6px solid var(--silver);background:#fff}
 .logoTop{width:132px;height:132px;border-radius:50%;object-fit:cover;border:4px solid var(--silver);background:#fff;flex-shrink:0}
 .logoReceipt{width:90px;height:90px;border-radius:50%;object-fit:cover;border:4px solid var(--silver)}
@@ -36,48 +36,70 @@
 .cardImg{width:100%;height:150px;object-fit:cover;border-radius:8px;border:3px solid #fff;display:block;margin-bottom:12px}
 .cardImg2{width:100%;height:95px;object-fit:cover;border-radius:8px;border:3px solid #fff;display:block;margin-bottom:10px}
 .totalRow{display:flex;justify-content:space-between;font-size:20px;font-weight:900;margin:8px 0}
-.promoRow{display:flex;justify-content:space-between;color:var(--dark);font-weight:900;background:#e6f5f1;padding:8px;border:3px solid var(--green);border-radius:8px}
 button{border:3px solid var(--dark);padding:13px;font-weight:900;width:100%;margin-top:7px;font-size:16px;cursor:pointer;border-radius:10px}
 .charge{background:var(--green);color:#fff;font-size:20px;padding:17px;border-color:var(--silver)}
 .holdBtn{background:#dff0ec;color:var(--dark)}
-select{width:100%;padding:12px;font-size:16px;border:3px solid var(--dark);margin-top:7px;border-radius:8px;font-weight:700}
 #receipt{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:98}
 .paper{background:#fff;width:380px;max-height:92vh;overflow:auto;padding:18px;text-align:center;font-family:monospace;border:4px solid var(--silver);border-radius:10px}
+.paper h2{font-family:Georgia,serif;letter-spacing:3px;text-shadow:1px 1px 0 #c9d6d2}
 .row{display:flex;justify-content:space-between;text-align:left}
 .saleRow{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:8px 0;border-bottom:3px solid #ddd;font-size:15px}
 .saleRow button{width:auto;padding:6px 10px;margin:0;font-size:15px}
-h2{color:var(--dark);margin:4px 0;font-weight:900;letter-spacing:1px}
+h2{color:var(--dark);margin:4px 0;font-weight:900;letter-spacing:1px;font-family:Georgia,serif}
 #mgmt{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:98}
 #mgmt input{width:100%;padding:12px;font-size:16px;border:3px solid var(--dark);margin-top:7px;border-radius:8px;font-weight:700}
 #dayend{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:98}
 #drawerBox{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:98}
+#payBox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:97}
+.payPaper{background:#fff;width:460px;max-height:94vh;overflow:auto;padding:18px;text-align:center;border:5px solid var(--dark);border-radius:14px}
+.payPaper h2{font-family:Georgia,serif;letter-spacing:3px;font-size:28px}
+.payTotal{font-family:Georgia,serif;font-size:42px;font-weight:900;color:#0F6B5C;margin:6px 0}
+.payGiven{font-family:Georgia,serif;font-size:30px;font-weight:900;background:#e6f5f1;border:4px solid var(--green);border-radius:10px;padding:10px;margin:8px 0}
+.payChange{font-family:Georgia,serif;font-size:30px;font-weight:900;color:#0F6B5C;margin:8px 0}
+.payTop{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.payTop button{font-family:Georgia,serif;letter-spacing:2px;text-shadow:2px 2px 0 var(--dark);font-size:26px;padding:18px;color:#fff;background:linear-gradient(180deg,#2bc4a9,#0F6B5C);border:4px solid var(--silver);border-radius:12px}
+.payTop button.on{outline:6px solid #FFD700;background:linear-gradient(180deg,#0F6B5C,#083f36)}
+.payPad{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.payPad button{font-size:28px;padding:16px;background:#0F6B5C;color:#fff;border:4px solid #fff;border-radius:10px}
+#installOverlay{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:200;text-align:center;color:#fff}
+.spinner{width:110px;height:110px;border:12px solid #fff;border-top:12px solid #FFD700;border-radius:50%;margin:0 auto;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 .designer{font-weight:900;font-size:12px;text-align:center;color:#0F6B5C;margin-top:10px}
 .cashupBox{background:#e6f5f1;border:4px solid var(--green);border-radius:10px;padding:12px;margin-top:10px}
 .passBox{background:#fff3cd;border:4px solid #FFD700;border-radius:10px;padding:12px;margin-top:10px}
 @media(max-width:800px){.wrap{flex-direction:column}.grid{grid-template-columns:1fr 1fr}.card{position:static}.brandName{font-size:24px}.clock{font-size:13px}.logoTop{width:88px;height:88px}.flag{font-size:34px}.lockBtn,.dayBtn,.drawerBtn{font-size:12px;padding:10px 8px}.cardImg{height:110px}.cardImg2{height:80px}.bigBtn{font-size:22px}.tile{font-size:17px}}
 </style></head>
 <body>
+<div id="installOverlay"><div><img src="logo.png" style="width:110px;height:110px;border-radius:50%;border:5px solid #fff;object-fit:cover"><div class="spinner" style="margin-top:16px"></div><h2 style="color:#fff;font-size:30px;letter-spacing:3px">INSTALLING...</h2><p style="font-weight:900">Please wait, do not tap.<br>Icon is coming to your main screen.</p></div></div>
 <div id="login"><div class="box"><img src="logo.png" class="logoLogin" alt="The Laundry Room"><p class="brandName">THE LAUNDRY ROOM</p><p class="brandSub">CLEAN • FRESH • CARE</p><p id="loginClock" style="font-weight:900"></p>
 <div class="barbox" id="barbox">_ _ _ _</div><div class="bar"><div class="fill" id="fill"></div></div><div id="count">Staff only - Type PIN</div>
 <div class="pad"><button onclick="press(1)">1</button><button onclick="press(2)">2</button><button onclick="press(3)">3</button><button onclick="press(4)">4</button><button onclick="press(5)">5</button><button onclick="press(6)">6</button><button onclick="press(7)">7</button><button onclick="press(8)">8</button><button onclick="press(9)">9</button><button onclick="pin='';draw()">C</button><button onclick="press(0)">0</button><button onclick="pin=pin.slice(0,-1);draw()">⌫</button></div></div></div>
 <div class="top"><div class="topLeft"><img src="logo.png" class="logoTop" alt="Logo"><div><p class="brandName">THE LAUNDRY ROOM</p><p class="brandSub" style="margin:0">CLEAN • FRESH • CARE</p></div></div><div class="topRight"><div class="flag">🇿🇦<small>SA</small></div><button class="lockBtn" onclick="openMgmt()">🔒 MANAGEMENT</button><button class="drawerBtn" onclick="openDrawer()">CASH DRAWER - RAND (R)</button><button class="dayBtn" onclick="openDayEnd()">🧾 DAY END</button><button class="lockBtn" onclick="installApp()">⬇ INSTALL</button><div class="clock" id="topClock"></div></div></div>
 <div class="wrap"><div class="left" id="left"></div><div class="right" id="right"></div></div>
 <div id="receipt"><div class="paper" id="paper"></div></div>
+<div id="payBox"><div class="payPaper" id="payPaper"></div></div>
 <div id="mgmt"><div class="paper" id="mgmtPaper" style="text-align:left;font-family:Arial"></div></div>
 <div id="dayend"><div class="paper" id="dayPaper" style="text-align:left;font-family:Arial"></div></div>
 <div id="drawerBox"><div class="paper" id="drawerPaper" style="text-align:left;font-family:Arial"></div></div>
 <script>
-let deferredPrompt=null;
+let deferredPrompt=null,installAsked=false;
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e});
-async function installApp(){if(deferredPrompt){deferredPrompt.prompt();let r=await deferredPrompt.userChoice;deferredPrompt=null;if(r.outcome=="accepted")alert("Installed! Look on desktop / taskbar for The Laundry Room logo.");return}alert("ON LAPTOP CHROME:\n1. Tap the 3 dots ⋮ top right\n2. Save and share > Create shortcut\n3. Tick 'Open as window'\n4. Tap Create\n\nThe Laundry Room logo will now be on the desktop. Double tap it, it opens full screen like an app.")}
+window.addEventListener("appinstalled",()=>{document.getElementById("installOverlay").style.display="none";localStorage.setItem("lr_installed","yes");alert("DONE! Installed! Look on your main laptop screen / desktop. The Laundry Room round logo is there. Tap that icon from now on.")});
+if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{})}
 try{let man={name:"The Laundry Room",short_name:"Laundry Room",start_url:".",display:"standalone",background_color:"#1FA68F",theme_color:"#1FA68F",icons:[{src:"logo.png",sizes:"any",type:"image/png"}]};let l=document.createElement("link");l.rel="manifest";l.href=URL.createObjectURL(new Blob([JSON.stringify(man)],{type:"application/json"}));document.head.appendChild(l)}catch(e){}
+async function installApp(){
+if(window.matchMedia("(display-mode: standalone)").matches||localStorage.getItem("lr_installed")=="yes")return alert("Already installed! Close Chrome, look on main screen / desktop for the round Laundry Room logo. Tap THAT icon.");
+if(!deferredPrompt)return alert("OPEN IN CHROME FIRST!\n\nYou are inside WhatsApp / another app now, Chrome cannot install from here.\n\n1. Tap Share / 3 dots in this app\n2. Tap OPEN IN CHROME / Open in Browser\n3. Then tap INSTALL on top again\n4. Circle will spin, icon will come.");
+document.getElementById("installOverlay").style.display="flex";
+try{deferredPrompt.prompt();let r=await deferredPrompt.userChoice;deferredPrompt=null;document.getElementById("installOverlay").style.display="none";if(r.outcome=="accepted"){localStorage.setItem("lr_installed","yes");alert("INSTALLING DONE! Close Chrome now. Look on main screen / desktop, round logo is there.")}else{alert("Install cancelled. Tap INSTALL again when ready.")}}catch(e){document.getElementById("installOverlay").style.display="none";alert("Tap INSTALL again.")}
+}
 function tick(){let d=new Date();let s=d.toLocaleDateString("en-ZA",{day:"2-digit",month:"short",year:"numeric"})+"<br>"+d.toLocaleTimeString("en-ZA");document.getElementById("topClock").innerHTML=s;let l=document.getElementById("loginClock");if(l)l.textContent=d.toLocaleString("en-ZA")}
 tick();setInterval(tick,1000);
 let staffPin=localStorage.getItem("lr_staff_pin")||"0000";
 let mgmtPass=localStorage.getItem("lr_mgmt_pass")||"1234";
-let pin="";function press(n){if(pin.length>=4)return;pin+=n;draw();if(pin.length==4){if(pin==staffPin)document.getElementById("login").style.display="none";else{alert("Wrong PIN");pin="";draw()}}}
+let pin="";function press(n){if(pin.length>=4)return;pin+=n;draw();if(pin.length==4){if(pin==staffPin){document.getElementById("login").style.display="none";if(!installAsked&&localStorage.getItem("lr_installed")!="yes"){installAsked=true;setTimeout(()=>{if(deferredPrompt&&confirm("INSTALL THE LAUNDRY ROOM ON THIS LAPTOP?\nTap OK, circle will spin, icon comes to main screen."))installApp()},600)}}else{alert("Wrong PIN");pin="";draw()}}}
 function draw(){let s="";for(let i=0;i<4;i++)s+=i<pin.length?"* ":"_ ";document.getElementById("barbox").textContent=s;document.getElementById("fill").style.width=pin.length*25+"%";document.getElementById("count").textContent=pin.length+" / 4"}
-document.addEventListener("keydown",e=>{if(document.getElementById("login").style.display!="none"&&/^[0-9]$/.test(e.key))press(+e.key);if(document.getElementById("login").style.display=="none"&&e.key=="Enter"&&document.getElementById("receipt").style.display!="flex")showReceipt()});
+document.addEventListener("keydown",e=>{if(document.getElementById("login").style.display!="none"&&/^[0-9]$/.test(e.key))press(+e.key);if(document.getElementById("login").style.display=="none"&&e.key=="Enter"&&document.getElementById("receipt").style.display!="flex"&&document.getElementById("payBox").style.display!="flex")openPay()});
 let labels=["1-4kg","4-5kg","5-6kg","6-7kg","7-8kg","8-9kg","9-10kg","10-11kg","11-12kg","13-15kg","15-20kg","20-25kg"];
 let P=JSON.parse(localStorage.getItem("lr_brackets")||"null")||{fold:[120,130,150,160,180,200,220,250,260,270,350,420],iron:[200,210,230,240,260,280,300,330,340,350,450,550]};
 function saveP(){localStorage.setItem("lr_brackets",JSON.stringify(P))}
@@ -101,8 +123,9 @@ let printingDay=false;
 function printDayEnd(){printingDay=true;window.print()}
 window.addEventListener("afterprint",()=>{if(!printingDay)return;printingDay=false;daySales=[];saveDay();document.getElementById("dayend").style.display="none";alert("Day End printed. Totals cleared to R0 for next day.")});
 let view="home";
-let sale=[],paying=false,promoOn=false,orderNo="LR-"+Math.floor(10000+Math.random()*89999);
-function totals(){let sub=0;sale.forEach(s=>sub+=s.price*s.qty);let disc=promoOn?Math.min(28,sub):0;return{sub:sub,disc:disc,total:sub-disc}}
+let sale=[],paying=false,orderNo="LR-"+Math.floor(10000+Math.random()*89999);
+let payMethod="Cash",payGivenStr="";
+function totals(){let sub=0;sale.forEach(s=>sub+=s.price*s.qty);return{sub:sub,disc:0,total:sub}}
 function salesTotals(){let cash=0,card=0;daySales.forEach(s=>{if(s.method=="Cash")cash+=s.total;else card+=s.total});return{cash:cash,card:card,total:cash+card,count:daySales.length,expected:cash+drawer.in-drawer.out}}
 function render(){
 let left="";
@@ -114,25 +137,30 @@ else{let title=view=="fold"?"WASH & FOLD":"WASH & IRON";let arr=view=="fold"?P.f
 document.getElementById("left").innerHTML=left;
 let t=totals();
 let h=sale.map((s,i)=>`<div class='saleRow'><span><b>${s.name}</b><br><small>${s.qty} x R${s.price}</small></span><span>R${(s.price*s.qty).toFixed(2)}<br><button onclick='changeQty(${i},-1)'>-</button> <button onclick='changeQty(${i},1)'>+</button> <button onclick='removeSale(${i})' style='background:red;color:#fff'>✕</button></span></div>`).join("");
-document.getElementById("right").innerHTML="<div class='card'><h2 style='text-align:center'>CURRENT ORDER</h2><p style='text-align:center;font-weight:800'>Order #"+orderNo+" - "+new Date().toLocaleString("en-ZA")+"</p>"+(sale.length?h:"<p>Select a service</p>")+"<div class='totalRow'><span>Subtotal</span><span>R"+t.sub.toFixed(2)+"</span></div>"+(promoOn?`<div class='promoRow'><span>- Eco Promo</span><span>-R${t.disc.toFixed(2)}</span></div>`:"")+"<div class='totalRow' style='font-size:28px;color:#0F6B5C'><span>TOTAL</span><span>R"+t.total.toFixed(2)+"</span></div><select id='payMethod'><option>Cash</option><option>Card</option></select><button onclick='promoOn=!promoOn;render()' style='background:#e6f5f1;color:#0F6B5C'>"+(promoOn?"✓ Eco Promo ON - Tap to remove":"Apply Eco Promo - R28")+"</button><button class='charge' onclick='showReceipt()'>CHECKOUT & PAY</button><button class='holdBtn' onclick='holdSale()'>HOLD / PRINT RECEIPT</button><p style='text-align:center;font-weight:800'>Thank you - clean, fresh, care! ♻️ Eco-friendly</p><button onclick='sale=[];promoOn=false;render()'>Clear</button></div>"}
+document.getElementById("right").innerHTML="<div class='card'><div style='text-align:center'><img src='logo.png' class='logoReceipt'><h2 style='text-align:center;font-size:26px;letter-spacing:3px'>THE LAUNDRY ROOM</h2><p style='font-weight:900;letter-spacing:4px;margin:0'>CLEAN • FRESH • CARE</p></div><h2 style='text-align:center'>CURRENT ORDER</h2><p style='text-align:center;font-weight:800'>Order #"+orderNo+" - "+new Date().toLocaleString("en-ZA")+"</p>"+(sale.length?h:"<p>Select a service</p>")+"<div class='totalRow'><span>Subtotal</span><span>R"+t.sub.toFixed(2)+"</span></div><div class='totalRow' style='font-size:28px;color:#0F6B5C'><span>TOTAL</span><span>R"+t.total.toFixed(2)+"</span></div><button class='charge' onclick='openPay()'>CHECKOUT & PAY</button><button class='holdBtn' onclick='holdSale()'>HOLD / PRINT RECEIPT</button><p style='text-align:center;font-weight:800'>Thank you - clean, fresh, care! ♻️ Eco-friendly</p><button onclick='sale=[];render()'>Clear</button></div>"}
 function addBracket(i){let title=view=="fold"?"Wash & Fold":"Wash & Iron";let price=view=="fold"?P.fold[i]:P.iron[i];let name=title+" "+labels[i];let f=sale.find(x=>x.name==name);if(f)f.qty+=1;else sale.push({name:name,price:price,qty:1,unit:"bag"});render()}
 function addSpecial(i){if(i==4){view="dress";render();return}let price=S[i];let name=specialNames[i];let f=sale.find(x=>x.name==name&&x.price==price);if(f)f.qty+=1;else sale.push({name:name,price:price,qty:1,unit:"item"});render()}
 function addCopy(i){let price=CP[i];let name=copyNames[i];let f=sale.find(x=>x.name==name&&x.price==price);if(f)f.qty+=1;else sale.push({name:name,price:price,qty:1,unit:"page"});render()}
 function addDress(price){let name="Dresses / Traditional R"+price;let f=sale.find(x=>x.name==name&&x.price==price);if(f)f.qty+=1;else sale.push({name:name,price:price,qty:1,unit:"item"});render()}
 function changeQty(i,d){sale[i].qty+=d;if(sale[i].qty<=0)sale.splice(i,1);render()}
 function removeSale(i){sale.splice(i,1);render()}
-function holdSale(){if(!sale.length)return alert("Nothing to hold");alert("Order "+orderNo+" HELD. Total R"+totals().total.toFixed(2));sale=[];promoOn=false;orderNo="LR-"+Math.floor(10000+Math.random()*89999);render()}
-function showReceipt(){if(paying)return;if(!sale.length)return alert("Click item first");let t=totals();
-let method=document.getElementById("payMethod")?document.getElementById("payMethod").value:"Cash";
-let tendered=t.total,change=0;
-if(method=="Cash"){let a=prompt("TOTAL R"+t.total.toFixed(2)+"\nHow much cash did customer GIVE? R\nExample: customer gives R1000, type 1000","");if(a===null)return;a=parseFloat(a);if(!a||a<=0)return alert("Type the cash given, e.g. 1000");if(a<t.total)return alert("NOT ENOUGH CASH! Total R"+t.total.toFixed(2)+", customer gave only R"+a.toFixed(2)+". Ask for R"+(t.total-a).toFixed(2)+" more.");tendered=a;change=a-t.total;alert("GIVE CHANGE: R"+change.toFixed(2)+"\nTotal R"+t.total.toFixed(2)+" - Given R"+tendered.toFixed(2))}
-paying=true;
-if(method=="Cash"){autoOpenDrawer()}
-daySales.push({order:orderNo,total:t.total,method:method,time:new Date().toLocaleString("en-ZA"),tendered:tendered,change:change});saveDay();
+function holdSale(){if(!sale.length)return alert("Nothing to hold");alert("Order "+orderNo+" HELD. Total R"+totals().total.toFixed(2));sale=[];orderNo="LR-"+Math.floor(10000+Math.random()*89999);render()}
+function openPay(){if(!sale.length)return alert("Click item first");payMethod="Cash";payGivenStr="";drawPay();document.getElementById("payBox").style.display="flex"}
+function drawPay(){let t=totals();let given=parseFloat(payGivenStr)||0;let change=given-t.total;
+let changeLine=payMethod=="Card"?"<div class='payChange'>CHANGE: R0.00 - CARD</div>":(payGivenStr?("<div class='payChange'>CHANGE: R"+(change>=0?change.toFixed(2):"0.00")+"</div>"+(change<0?"<div style='font-weight:900;color:red'>STILL NEED R"+Math.abs(change).toFixed(2)+"</div>":"")):"<div class='payChange'>PUNCH AMOUNT CUSTOMER GAVE</div>");
+let pad=payMethod=="Card"?"":("<div class='payGiven'>GIVEN: R"+(payGivenStr||"0")+"</div>"+changeLine+"<div class='payPad'><button onclick='payPress(1)'>1</button><button onclick='payPress(2)'>2</button><button onclick='payPress(3)'>3</button><button onclick='payPress(4)'>4</button><button onclick='payPress(5)'>5</button><button onclick='payPress(6)'>6</button><button onclick='payPress(7)'>7</button><button onclick='payPress(8)'>8</button><button onclick='payPress(9)'>9</button><button onclick='payGivenStr=\"\";drawPay()'>C</button><button onclick='payPress(0)'>0</button><button onclick='payGivenStr=payGivenStr.slice(0,-1);drawPay()'>⌫</button></div><button onclick='payGivenStr=String(totals().total);drawPay()' style='background:#e6f5f1;color:#0F6B5C'>EXACT AMOUNT R"+t.total.toFixed(2)+"</button>");
+document.getElementById("payPaper").innerHTML="<img src='logo.png' class='logoReceipt'><h2>THE LAUNDRY ROOM</h2><p style='font-weight:900;letter-spacing:4px;margin:0'>CLEAN • FRESH • CARE</p><div class='payTop'><button class='"+(payMethod=="Card"?"on":"")+"' onclick='payMethod=\"Card\";drawPay()'>CARD</button><button class='"+(payMethod=="Cash"?"on":"")+"' onclick='payMethod=\"Cash\";drawPay()'>CASH</button></div><div>TOTAL TO PAY</div><div class='payTotal'>R"+t.total.toFixed(2)+"</div>"+(payMethod=="Card"?"<div class='payChange'>CARD - NO CHANGE</div><p style='font-weight:800'>Customer taps card for R"+t.total.toFixed(2)+", then tap PAY below.</p>":pad)+"<button class='charge' onclick='payConfirm()'>PAY R"+t.total.toFixed(2)+" - GO TO RECEIPT</button><button onclick='document.getElementById(\"payBox\").style.display=\"none\"' style='background:#ccc'>← BACK</button>"}
+function payPress(n){if(payGivenStr.length>=7)return;payGivenStr+=n;drawPay()}
+function payConfirm(){if(paying)return;let t=totals();let tendered=t.total,change=0;
+if(payMethod=="Cash"){let given=parseFloat(payGivenStr)||0;if(!given)return alert("Punch amount customer gave first, e.g. 1000");if(given<t.total)return alert("NOT ENOUGH CASH! Total R"+t.total.toFixed(2)+", gave R"+given.toFixed(2)+". Need R"+(t.total-given).toFixed(2)+" more.");tendered=given;change=given-t.total}
+paying=true;document.getElementById("payBox").style.display="none";
+if(payMethod=="Cash"){autoOpenDrawer()}
+daySales.push({order:orderNo,total:t.total,method:payMethod,time:new Date().toLocaleString("en-ZA"),tendered:tendered,change:change});saveDay();
 let rows=sale.map(s=>`<div class="row"><span>${s.name} x${s.qty}</span><span>R${(s.price*s.qty).toFixed(2)}</span></div>`).join("");
-document.getElementById("paper").innerHTML='<img src="logo.png" class="logoReceipt"><h2>THE LAUNDRY ROOM</h2>Clean • Fresh • Care<br>Order #'+orderNo+'<br>'+new Date().toLocaleString("en-ZA")+'<hr>'+rows+"<hr><div class='row'><b>TOTAL:</b><b>R"+t.total.toFixed(2)+"</b></div><div class='row'><span>Paid:</span><span>"+method+"</span></div>"+(method=="Cash"?"<div class='row'><span>Cash Given:</span><span>R"+tendered.toFixed(2)+"</span></div><div class='row' style='font-size:22px;color:#0F6B5C'><b>CHANGE:</b><b>R"+change.toFixed(2)+"</b></div>":"")+"<hr><b>THANK YOU!</b><br><div class='designer'>Designed by Musina POS Systems</div><br><button onclick='window.print()' style='background:#111;color:#fff'>PRINT</button><button onclick='closeReceipt()' style='background:#ccc'>New Sale</button>";
-document.getElementById("receipt").style.display="flex"}
-function closeReceipt(){document.getElementById("receipt").style.display="none";sale=[];paying=false;promoOn=false;orderNo="LR-"+Math.floor(10000+Math.random()*89999);render()}
+document.getElementById("paper").innerHTML='<img src="logo.png" class="logoReceipt"><h2>THE LAUNDRY ROOM</h2>Clean • Fresh • Care<br>Order #'+orderNo+'<br>'+new Date().toLocaleString("en-ZA")+'<hr>'+rows+"<hr><div class='row'><b>TOTAL:</b><b>R"+t.total.toFixed(2)+"</b></div><div class='row'><span>Paid:</span><span>"+payMethod+"</span></div>"+(payMethod=="Cash"?"<div class='row'><span>Cash Given:</span><span>R"+tendered.toFixed(2)+"</span></div><div class='row' style='font-size:22px;color:#0F6B5C'><b>CHANGE:</b><b>R"+change.toFixed(2)+"</b></div>":"")+"<hr><b>THANK YOU!</b><br><div class='designer'>Designed by Musina POS Systems</div><br><button onclick='window.print()' style='background:#111;color:#fff'>PRINT AGAIN</button><button onclick='closeReceipt()' style='background:#ccc'>New Sale</button>";
+document.getElementById("receipt").style.display="flex";
+setTimeout(()=>{try{window.print()}catch(e){}},700)}
+function closeReceipt(){document.getElementById("receipt").style.display="none";sale=[];paying=false;orderNo="LR-"+Math.floor(10000+Math.random()*89999);render()}
 function closePaperOnly(){document.getElementById("receipt").style.display="none"}
 function openMgmt(){let m=prompt("MANAGEMENT PASSWORD:","");if(m===null)return;if(m!=mgmtPass)return alert("Wrong management password");
 let st=salesTotals();
@@ -146,7 +174,7 @@ document.getElementById("mgmtPaper").innerHTML="<h2>MANAGEMENT</h2><p style='fon
 +"<button onclick='document.getElementById(\"mgmt\").style.display=\"none\"'>Close Management</button>";
 document.getElementById("mgmt").style.display="flex"}
 function saveMgmt(){for(let i=0;i<12;i++){P.fold[i]=parseFloat(document.getElementById("f"+i).value)||P.fold[i];P.iron[i]=parseFloat(document.getElementById("r"+i).value)||P.iron[i]}for(let i=0;i<8;i++){S[i]=parseFloat(document.getElementById("s"+i).value)||S[i]}for(let i=0;i<5;i++){CP[i]=parseFloat(document.getElementById("c"+i).value)||CP[i]}saveP();saveS();saveCP();alert("Prices saved! Laundry + Copies prices saved.");render()}
-function doCashUp(){let counted=parseFloat(document.getElementById("countedCash").value);if(!counted&&counted!==0)return alert("Type cash counted first");let st=salesTotals();let diff=counted-st.expected;let msg=diff==0?"✅ BALANCED - Perfect, R0 difference":diff>0?"⚠️ OVER by R"+diff.toFixed(2)+" - Too much cash in drawer": "❌ SHORT by R"+Math.abs(diff).toFixed(2)+" - Cash missing, check sales";document.getElementById("cashupResult").innerHTML="Counted: R"+counted.toFixed(2)+"<br>Expected: R"+st.expected.toFixed(2)+"<br>"+msg;document.getElementById("cashupResult").dataset.counted=counted;document.getElementById("cashupResult").dataset.diff=diff}
+function doCashUp(){let counted=parseFloat(document.getElementById("countedCash").value);if(!counted&&counted!==0)return alert("Type cash counted first");let st=salesTotals();let diff=counted-st.expected;let msg=diff==0?"✅ BALANCED - Perfect, R0 difference":diff>0?"⚠️ OVER by R"+diff.toFixed(2)+" - Too much cash in drawer": "❌ SHORT by R"+Math.abs(diff).toFixed(2)+" - Cash missing, check sales";document.getElementById("cashupResult").innerHTML="Counted: R"+counted.toFixed(2)+"<br>Expected: R"+st.expected.toFixed(2)+"<br>"+msg}
 function printCashUp(){let st=salesTotals();let countedEl=document.getElementById("countedCash");let counted=countedEl?parseFloat(countedEl.value):NaN;let diff=isNaN(counted)?null:counted-st.expected;let diffLine=diff===null?"<div class='row'><span>Cash Counted:</span><span>Not counted yet</span></div>":"<div class='row'><span>Cash Counted:</span><span>R"+counted.toFixed(2)+"</span></div><div class='row'><b>Difference:</b><b>"+(diff==0?"BALANCED R0":diff>0?"OVER R"+diff.toFixed(2):"SHORT R"+Math.abs(diff).toFixed(2))+"</b></div>";
 document.getElementById("paper").innerHTML='<img src="logo.png" class="logoReceipt"><h2>THE LAUNDRY ROOM</h2><b>CASH UP REPORT</b><br>'+new Date().toLocaleString("en-ZA")+'<hr><div class="row"><span>Orders:</span><span>'+st.count+'</span></div><div class="row"><span>Cash Sales:</span><span>R'+st.cash.toFixed(2)+'</span></div><div class="row"><span>Card Sales:</span><span>R'+st.card.toFixed(2)+'</span></div><div class="row"><b>TOTAL SALES:</b><b>R'+st.total.toFixed(2)+'</b></div><div class="row"><span>Cash IN:</span><span>R'+drawer.in.toFixed(2)+'</span></div><div class="row"><span>Cash OUT:</span><span>R'+drawer.out.toFixed(2)+'</span></div><hr><div class="row"><b>EXPECTED:</b><b>R'+st.expected.toFixed(2)+'</b></div>'+diffLine+'<hr>Manager Signature: _________________<br><br>Cashier Signature: _________________<br><div class="designer">Designed by Musina POS Systems</div><br><button onclick="window.print()" style="background:#111;color:#fff">PRINT</button><button onclick="closePaperOnly()" style="background:#ccc">Close</button>';
 document.getElementById("receipt").style.display="flex"}
