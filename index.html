@@ -27,10 +27,12 @@
 .left{flex:1.9}.right{flex:1;min-width:340px}
 .card{background:#fff;padding:18px;border-radius:14px;border:4px solid var(--dark);height:fit-content;position:sticky;top:10px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tile{border:4px solid var(--silver);padding:26px 8px;color:#fff;font-weight:900;font-size:19px;cursor:pointer;min-height:130px;border-radius:12px;background:var(--green)}
-.tile small{display:block;font-weight:800;font-size:14px;margin-top:6px}
-.bigBtn{border:4px solid var(--silver);padding:10px 8px 26px;color:#fff;font-weight:900;font-size:26px;cursor:pointer;min-height:150px;border-radius:12px;background:var(--green);overflow:hidden}
+.tile{border:4px solid var(--silver);padding:10px 8px 16px;color:#fff;font-weight:900;font-size:20px;cursor:pointer;min-height:130px;border-radius:12px;background:var(--green);overflow:hidden;line-height:1.2}
+.tile small{display:block;font-weight:900;font-size:22px;margin-top:8px;color:#FFD700}
+.bigBtn{border:4px solid var(--silver);padding:10px 8px 18px;color:#fff;font-weight:900;font-size:27px;cursor:pointer;min-height:150px;border-radius:12px;background:var(--green);overflow:hidden;line-height:1.2}
+.bigBtn small{display:block;font-weight:900;font-size:19px;margin-top:8px;color:#FFD700;letter-spacing:1px}
 .cardImg{width:100%;height:150px;object-fit:cover;border-radius:8px;border:3px solid #fff;display:block;margin-bottom:12px}
+.cardImg2{width:100%;height:95px;object-fit:cover;border-radius:8px;border:3px solid #fff;display:block;margin-bottom:10px}
 .totalRow{display:flex;justify-content:space-between;font-size:20px;font-weight:900;margin:8px 0}
 .promoRow{display:flex;justify-content:space-between;color:var(--dark);font-weight:900;background:#e6f5f1;padding:8px;border:3px solid var(--green);border-radius:8px}
 button{border:3px solid var(--dark);padding:13px;font-weight:900;width:100%;margin-top:7px;font-size:16px;cursor:pointer;border-radius:10px}
@@ -48,7 +50,7 @@ h2{color:var(--dark);margin:4px 0;font-weight:900;letter-spacing:1px}
 #dayend{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:98}
 #drawerBox{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;z-index:98}
 .designer{font-weight:900;font-size:12px;text-align:center;color:#0F6B5C;margin-top:10px}
-@media(max-width:800px){.wrap{flex-direction:column}.grid{grid-template-columns:1fr 1fr}.card{position:static}.brandName{font-size:24px}.clock{font-size:13px}.logoTop{width:72px;height:72px}.flag{font-size:34px}.lockBtn,.dayBtn,.drawerBtn{font-size:12px;padding:8px 7px}.cardImg{height:110px}}
+@media(max-width:800px){.wrap{flex-direction:column}.grid{grid-template-columns:1fr 1fr}.card{position:static}.brandName{font-size:24px}.clock{font-size:13px}.logoTop{width:72px;height:72px}.flag{font-size:34px}.lockBtn,.dayBtn,.drawerBtn{font-size:12px;padding:8px 7px}.cardImg{height:110px}.cardImg2{height:80px}.bigBtn{font-size:22px}.tile{font-size:17px}}
 </style></head>
 <body>
 <div id="login"><div class="box"><img src="logo.png" class="logoLogin" alt="The Laundry Room"><p class="brandName">THE LAUNDRY ROOM</p><p class="brandSub">CLEAN • FRESH • CARE</p><p id="loginClock" style="font-weight:900"></p>
@@ -70,6 +72,7 @@ let labels=["1-4kg","4-5kg","5-6kg","6-7kg","7-8kg","8-9kg","9-10kg","10-11kg","
 let P=JSON.parse(localStorage.getItem("lr_brackets")||"null")||{fold:[120,130,150,160,180,200,220,250,260,270,350,420],iron:[200,210,230,240,260,280,300,330,340,350,450,550]};
 function saveP(){localStorage.setItem("lr_brackets",JSON.stringify(P))}
 let specialNames=["Iron Only","Blankets","Comforters","Takkies 5+ pairs","Dresses / Traditional","School Uniform","Blazer","Bundle 5kg WDF"];
+let specialImgs=["iron-only.jpg","blankets.jpg","comforters.jpg","takkies.jpg","dresses.jpg","uniform.jpg","blazer.jpg","bundle.jpg"];
 let S=JSON.parse(localStorage.getItem("lr_specials")||"null")||[60,60,150,50,100,40,80,150];
 function saveS(){localStorage.setItem("lr_specials",JSON.stringify(S))}
 let daySales=JSON.parse(localStorage.getItem("lr_day_sales")||"[]");
@@ -89,10 +92,10 @@ let sale=[],paying=false,promoOn=false,orderNo="LR-"+Math.floor(10000+Math.rando
 function totals(){let sub=0;sale.forEach(s=>sub+=s.price*s.qty);let disc=promoOn?Math.min(28,sub):0;return{sub:sub,disc:disc,total:sub-disc}}
 function render(){
 let left="";
-if(view=="home"){left="<div class='grid'><button class='bigBtn' onclick='view=\"fold\";render()'><img class='cardImg' src='wash-fold.jpg' onerror=\"this.style.display='none'\" alt='Wash and Fold'>🧺<br>WASH &amp; FOLD<small>Tap to see kg prices</small></button><button class='bigBtn' onclick='view=\"iron\";render()'><img class='cardImg' src='wash-iron.jpg' onerror=\"this.style.display='none'\" alt='Wash and Iron'>♨️<br>WASH &amp; IRON<small>Tap to see kg prices</small></button><button class='bigBtn' style='grid-column:1 / -1;background:#0F6B5C' onclick='view=\"special\";render()'><img class='cardImg' src='special.jpg' onerror=\"this.style.display='none'\" alt='Special Services'>⭐<br>SPECIAL SERVICES<small>Iron Only • Blankets • Comforters • Takkies • Dresses • Uniform • Blazer • Bundle</small></button></div>"}
-else if(view=="dress"){left="<h2>DRESSES / TRADITIONAL</h2><p style='font-weight:800'>Pick 1 price option, tap it, it adds straight</p><button onclick='view=\"special\";render()' style='background:#111;color:#fff'>← BACK TO SPECIALS</button><div class='grid' style='margin-top:10px'>"+[80,90,100,110,120].map(p=>`<button class='tile' style='font-size:28px' onclick='addDress(${p})'>R${p}<small>Dresses / Traditional</small></button>`).join("")+"</div>"}
-else if(view=="special"){left="<h2>⭐ SPECIAL SERVICES</h2><p style='font-weight:800'>Tap a price, it adds straight</p><button onclick='view=\"home\";render()' style='background:#111;color:#fff'>← BACK TO 3 OPTIONS</button><div class='grid' style='margin-top:10px'>"+specialNames.map((nm,i)=>`<button class='tile' onclick='addSpecial(${i})'>${nm}<small>${i==4?"R80 - R120 - Tap for options":"R"+S[i]}</small></button>`).join("")+"</div>"}
-else{let title=view=="fold"?"WASH & FOLD":"WASH & IRON";let arr=view=="fold"?P.fold:P.iron;left="<h2>"+title+"</h2><p style='font-weight:800'>Tap a kg price, it adds straight</p><button onclick='view=\"home\";render()' style='background:#111;color:#fff'>← BACK TO 3 OPTIONS</button><div class='grid' style='margin-top:10px'>"+labels.map((lab,i)=>`<button class='tile' onclick='addBracket(${i})'>${lab}<small>R${arr[i]}</small></button>`).join("")+"</div>"}
+if(view=="home"){left="<div class='grid'><button class='bigBtn' onclick='view=\"fold\";render()'><img class='cardImg' src='wash-fold.jpg' onerror=\"this.style.display='none'\">WASH &amp; FOLD<small>From R120</small></button><button class='bigBtn' onclick='view=\"iron\";render()'><img class='cardImg' src='wash-iron.jpg' onerror=\"this.style.display='none'\">WASH &amp; IRON<small>From R200</small></button><button class='bigBtn' style='grid-column:1 / -1;background:#0F6B5C' onclick='view=\"special\";render()'><img class='cardImg' src='special.jpg' onerror=\"this.style.display='none'\">SPECIAL SERVICES<small>From R40</small></button></div>"}
+else if(view=="dress"){left="<h2>DRESSES / TRADITIONAL</h2><button onclick='view=\"special\";render()' style='background:#111;color:#fff'>← BACK</button><div class='grid' style='margin-top:10px'>"+[80,90,100,110,120].map(p=>`<button class='tile' style='font-size:28px' onclick='addDress(${p})'>R${p}</button>`).join("")+"</div>"}
+else if(view=="special"){left="<h2>⭐ SPECIAL SERVICES</h2><button onclick='view=\"home\";render()' style='background:#111;color:#fff'>← BACK</button><div class='grid' style='margin-top:10px'>"+specialNames.map((nm,i)=>`<button class='tile' onclick='addSpecial(${i})'><img class='cardImg2' src='${specialImgs[i]}' onerror="this.style.display='none'">${nm}<small>${i==4?"R80 - R120":"R"+S[i]}</small></button>`).join("")+"</div>"}
+else{let title=view=="fold"?"WASH & FOLD":"WASH & IRON";let arr=view=="fold"?P.fold:P.iron;left="<h2>"+title+"</h2><button onclick='view=\"home\";render()' style='background:#111;color:#fff'>← BACK</button><div class='grid' style='margin-top:10px'>"+labels.map((lab,i)=>`<button class='tile' onclick='addBracket(${i})'>${lab}<small>R${arr[i]}</small></button>`).join("")+"</div>"}
 document.getElementById("left").innerHTML=left;
 let t=totals();
 let h=sale.map((s,i)=>`<div class='saleRow'><span><b>${s.name}</b><br><small>${s.qty} x R${s.price}</small></span><span>R${(s.price*s.qty).toFixed(2)}<br><button onclick='changeQty(${i},-1)'>-</button> <button onclick='changeQty(${i},1)'>+</button> <button onclick='removeSale(${i})' style='background:red;color:#fff'>✕</button></span></div>`).join("");
