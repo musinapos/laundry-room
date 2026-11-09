@@ -28,7 +28,8 @@
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .tile{border:4px solid var(--silver);padding:26px 8px;color:#fff;font-weight:900;font-size:19px;cursor:pointer;min-height:130px;border-radius:12px;background:var(--green)}
 .tile small{display:block;font-weight:800;font-size:14px;margin-top:6px}
-.bigBtn{border:4px solid var(--silver);padding:36px 8px;color:#fff;font-weight:900;font-size:26px;cursor:pointer;min-height:150px;border-radius:12px;background:var(--green)}
+.bigBtn{border:4px solid var(--silver);padding:12px 8px 36px;color:#fff;font-weight:900;font-size:26px;cursor:pointer;min-height:150px;border-radius:12px;background:var(--green)}
+.btnPic{width:100%;height:150px;object-fit:cover;border-radius:8px;border:3px solid #fff;display:block;margin-bottom:10px;background:#fff}
 .totalRow{display:flex;justify-content:space-between;font-size:20px;font-weight:900;margin:8px 0}
 .promoRow{display:flex;justify-content:space-between;color:var(--dark);font-weight:900;background:#e6f5f1;padding:8px;border:3px solid var(--green);border-radius:8px}
 button{border:3px solid var(--dark);padding:13px;font-weight:900;width:100%;margin-top:7px;font-size:16px;cursor:pointer;border-radius:10px}
@@ -49,14 +50,14 @@ html,body{height:100%;overflow:hidden;margin:0}
 .top{position:sticky;top:0;z-index:50}
 .wrap{height:calc(100vh - 120px);overflow:hidden}
 .left{overflow-y:auto}
-.right{overflow:hidden}
-@media(max-width:800px){.wrap{flex-direction:column}.grid{grid-template-columns:1fr 1fr}.card{position:static}.brandName{font-size:24px}.clock{font-size:13px}.logoTop{width:72px;height:72px}.flag{font-size:34px}.lockBtn,.dayBtn{font-size:12px;padding:8px 7px}}
+.right{overflow-y:auto}
+@media(max-width:800px){.wrap{flex-direction:column}.grid{grid-template-columns:1fr 1fr}.card{position:static}.brandName{font-size:24px}.clock{font-size:13px}.logoTop{width:72px;height:72px}.flag{font-size:34px}.lockBtn,.dayBtn{font-size:12px;padding:8px 7px}.btnPic{height:110px}}
 </style></head>
 <body>
 <div id="login"><div class="box"><img src="logo.png" class="logoLogin" alt="The Laundry Room"><p class="brandName">THE LAUNDRY ROOM</p><p class="brandSub">CLEAN • FRESH • CARE</p><p id="loginClock" style="font-weight:900"></p>
 <div class="barbox" id="barbox">_ _ _ _</div><div class="bar"><div class="fill" id="fill"></div></div><div id="count">Staff only - Type PIN</div>
 <div class="pad"><button onclick="press(1)">1</button><button onclick="press(2)">2</button><button onclick="press(3)">3</button><button onclick="press(4)">4</button><button onclick="press(5)">5</button><button onclick="press(6)">6</button><button onclick="press(7)">7</button><button onclick="press(8)">8</button><button onclick="press(9)">9</button><button onclick="pin='';draw()">C</button><button onclick="press(0)">0</button><button onclick="pin=pin.slice(0,-1);draw()">⌫</button></div></div></div>
-<div class="top"><div class="topLeft"><img src="logo.png" class="logoTop" alt="Logo"><div><p class="brandName">THE LAUNDRY ROOM</p><p class="brandSub" style="margin:0">CLEAN • FRESH • CARE</p></div></div><div class="topRight"><div class="flag">🇿🇦<small>SA</small></div><button class="lockBtn" onclick="openMgmt()">🔒 MANAGEMENT</button><button class="dayBtn" onclick="openDayEnd()">🧾 DAY END</button><div class="clock" id="topClock"></div></div></div>
+<div class="top"><div class="topLeft"><img src="logo.png" class="logoTop" alt="Logo"><div><p class="brandName">THE LAUNDRY ROOM</p><p class="brandSub" style="margin:0">CLEAN • FRESH • CARE</p></div></div><div class="topRight"><div class="flag"><img src="https://flagcdn.com/w80/za.png" style="width:58px;height:40px;border:3px solid #fff;border-radius:6px"><small>SA</small></div><button class="lockBtn" onclick="openMgmt()">🔒 MANAGEMENT</button><button class="dayBtn" onclick="openDayEnd()">🧾 DAY END</button><div class="clock" id="topClock"></div></div></div>
 <div class="wrap"><div class="left" id="left"></div><div class="right" id="right"></div></div>
 <div id="receipt"><div class="paper" id="paper"></div></div>
 <div id="mgmt"><div class="paper" id="mgmtPaper" style="text-align:left;font-family:Arial"></div></div>
@@ -72,15 +73,17 @@ let P=JSON.parse(localStorage.getItem("lr_brackets")||"null")||{fold:[120,130,15
 function saveP(){localStorage.setItem("lr_brackets",JSON.stringify(P))}
 let daySales=JSON.parse(localStorage.getItem("lr_day_sales")||"[]");
 function saveDay(){localStorage.setItem("lr_day_sales",JSON.stringify(daySales))}
+let heldSales=JSON.parse(localStorage.getItem("lr_held")||"[]");
+function saveHeld(){localStorage.setItem("lr_held",JSON.stringify(heldSales))}
 let printingDay=false;
 function printDayEnd(){printingDay=true;window.print()}
-window.addEventListener("afterprint",()=>{if(!printingDay)return;printingDay=false;daySales=[];saveDay();document.getElementById("dayend").style.display="none";alert("Day End printed. Totals cleared to R0 for next day.")});
+window.addEventListener("afterprint",()=>{if(!printingDay)return;printingDay=false;if(confirm("Did Day End print OK? Tap OK to clear totals to R0. Tap Cancel to KEEP totals safe.")){daySales=[];saveDay();document.getElementById("dayend").style.display="none";alert("Day End printed. Totals cleared to R0 for next day.")}else{document.getElementById("dayend").style.display="none";alert("Totals KEPT safe. Nothing cleared. Print again when ready.")}});
 let view="home";
 let sale=[],paying=false,promoOn=false,orderNo="LR-"+Math.floor(10000+Math.random()*89999);
 function totals(){let sub=0;sale.forEach(s=>sub+=s.price*s.qty);let disc=promoOn?Math.min(28,sub):0;return{sub:sub,disc:disc,total:sub-disc}}
 function render(){
 let left="";
-if(view=="home"){left="<div class='grid'><button class='bigBtn' onclick='view=\"fold\";render()'>🧺<br>WASH &amp; FOLD<small>Tap to see kg prices</small></button><button class='bigBtn' onclick='view=\"iron\";render()'>♨️<br>WASH &amp; IRON<small>Tap to see kg prices</small></button></div>"}
+if(view=="home"){left="<div class='grid'><button class='bigBtn' onclick='view=\"fold\";render()'><img src='wash-fold.jpg' class='btnPic' alt='Wash and Fold'>🧺<br>WASH &amp; FOLD<small>Tap to see kg prices</small></button><button class='bigBtn' onclick='view=\"iron\";render()'><img src='wash-iron.jpg' class='btnPic' alt='Wash and Iron'>♨️<br>WASH &amp; IRON<small>Tap to see kg prices</small></button></div>"}
 else{let title=view=="fold"?"WASH & FOLD":"WASH & IRON";let arr=view=="fold"?P.fold:P.iron;left="<h2>"+title+"</h2><p style='font-weight:800'>Tap a kg price, it adds straight</p><button onclick='view=\"home\";render()' style='background:#111;color:#fff'>← BACK TO 2 OPTIONS</button><div class='grid' style='margin-top:10px'>"+labels.map((lab,i)=>`<button class='tile' onclick='addBracket(${i})'>${lab}<small>R${arr[i]}</small></button>`).join("")+"</div>"}
 document.getElementById("left").innerHTML=left;
 let t=totals();
@@ -89,7 +92,7 @@ document.getElementById("right").innerHTML="<div class='card'><h2 style='text-al
 function addBracket(i){let title=view=="fold"?"Wash & Fold":"Wash & Iron";let price=view=="fold"?P.fold[i]:P.iron[i];let name=title+" "+labels[i];let f=sale.find(x=>x.name==name);if(f)f.qty+=1;else sale.push({name:name,price:price,qty:1,unit:"bag"});render()}
 function changeQty(i,d){sale[i].qty+=d;if(sale[i].qty<=0)sale.splice(i,1);render()}
 function removeSale(i){sale.splice(i,1);render()}
-function holdSale(){if(!sale.length)return alert("Nothing to hold");alert("Order "+orderNo+" HELD. Total R"+totals().total.toFixed(2));sale=[];promoOn=false;orderNo="LR-"+Math.floor(10000+Math.random()*89999);render()}
+function holdSale(){if(!sale.length){if(!heldSales.length)return alert("Nothing to hold");let hh=heldSales.pop();saveHeld();sale=hh.sale;orderNo=hh.order;render();return}heldSales.push({order:orderNo,sale:JSON.parse(JSON.stringify(sale)),total:totals().total,time:new Date().toLocaleString("en-ZA")});saveHeld();alert("Order "+orderNo+" HELD. Total R"+totals().total.toFixed(2));sale=[];promoOn=false;orderNo="LR-"+Math.floor(10000+Math.random()*89999);render()}
 function showReceipt(){if(paying)return;if(!sale.length)return alert("Click item first");paying=true;let t=totals();
 let method=document.getElementById("payMethod")?document.getElementById("payMethod").value:"Cash";
 daySales.push({order:orderNo,total:t.total,method:method,time:new Date().toLocaleString("en-ZA")});saveDay();
@@ -110,4 +113,4 @@ document.getElementById("dayPaper").innerHTML="<div style='text-align:center'><i
 document.getElementById("dayend").style.display="flex"}
 function closeDay(){if(!confirm("Close day? This will reset all totals to R0. Are you sure?"))return;daySales=[];saveDay();document.getElementById("dayend").style.display="none";alert("Day closed. Totals reset to R0 for tomorrow.")}
 render();
-</script></body></html>  you added changes to this one??
+</script></body></html>
